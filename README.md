@@ -1,5 +1,5 @@
 # nvim
 ~/.config/nvim
 
-------UpdateLog------\
+### ------UpdateLog------
 > 2019.12.29 Basic Settings
