@@ -139,6 +139,29 @@ map + :+tabnext<CR>
 " ====================Sao Operations====================
 noremap <LEADER>= 20A=<Esc>A + <Esc>20A=<Esc>0f+cl
 noremap <LEADER>p APlug '+'<Esc>0f+cl
+" Single line moving
+noremap <C-S-j> ddp
+noremap <C-S-k> ddkkp
+" Markdown
+autocmd Filetype markdown inoremap ,f <Esc>/<++><CR>:nohlsearch<CR>c4l
+autocmd Filetype markdown inoremap ,b **** <++><Esc>F*hi
+autocmd Filetype markdown inoremap ,s ~~~~ <++><Esc>F~hi
+autocmd Filetype markdown inoremap ,i ** <++><Esc>F*i
+autocmd Filetype markdown inoremap ,c `` <++><Esc>F`i
+autocmd Filetype markdown inoremap ,C ```<Enter><++><Enter>```<Enter><Enter><++><Esc>4ka
+autocmd Filetype markdown inoremap ,h ==== <++><Esc>F=hi
+
+
+" ==================== Compile Function ====================
+map <F12> :call CompileAndRun()<CR>
+func! CompileAndRun()
+	exec "w"
+	" save the file
+	if &filetype == 'markdown'
+		exec "MarkdownPreview"
+	endif
+endfunc
+
 
 " ====================Plugs====================
 call plug#begin('~/.nvim/plugged')
@@ -146,12 +169,38 @@ call plug#begin('~/.nvim/plugged')
 Plug 'vim-airline/vim-airline'
 Plug 'connorholyday/vim-snazzy'
 
-
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 
 call plug#end()
 
 " ==================== Plugin Settings ====================
 
+
+" ===
+" === MarkdownPreview
+" ===
+let g:mkdp_auto_start = 0
+let g:mkdp_auto_close = 1
+let g:mkdp_refresh_slow = 0
+let g:mkdp_command_for_global = 0
+let g:mkdp_open_to_the_world = 0
+let g:mkdp_open_ip = ''
+let g:mkdp_browser = 'chromium'
+let g:mkdp_echo_preview_url = 0
+let g:mkdp_browserfunc = ''
+let g:mkdp_preview_options = {
+			\ 'mkit': {},
+			\ 'katex': {},
+			\ 'uml': {},
+			\ 'maid': {},
+			\ 'disable_sync_scroll': 0,
+			\ 'sync_scroll_type': 'middle',
+			\ 'hide_yaml_meta': 1
+			\ }
+let g:mkdp_markdown_css = ''
+let g:mkdp_highlight_css = ''
+let g:mkdp_port = ''
+let g:mkdp_page_title = '「${name}」'
 
 
 
