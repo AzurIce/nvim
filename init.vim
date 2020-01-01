@@ -148,7 +148,7 @@ autocmd Filetype markdown inoremap ,b **** <++><Esc>F*hi
 autocmd Filetype markdown inoremap ,s ~~~~ <++><Esc>F~hi
 autocmd Filetype markdown inoremap ,i ** <++><Esc>F*i
 autocmd Filetype markdown inoremap ,c `` <++><Esc>F`i
-autocmd Filetype markdown inoremap ,C ```<Enter><++><Enter>```<Enter><Enter><++><Esc>4ka
+autocmd Filetype markdown inoremap ,C ```<Enter><++><Enter>```<Enter><++><Esc>4ka
 autocmd Filetype markdown inoremap ,h ==== <++><Esc>F=hi
 
 
