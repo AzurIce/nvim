@@ -111,9 +111,6 @@ map Q :q<CR>
 " map R :source ~/.config/nvim/init.vim<CR>
 map R :source $MYVIMRC<CR>
 
-" color snazzy
-let g:SnazzyTransparent = 1
-
 " ====================Split====================
 map sh :set nosplitright<CR> :vsplit<CR>
 map sj :set splitbelow<CR> :split<CR>
@@ -174,7 +171,12 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 call plug#end()
 
 " ==================== Plugin Settings ====================
-
+"
+" ===
+" color snazzy
+" ===
+let g:SnazzyTransparent = 1
+colorscheme snazzy
 
 " ===
 " === MarkdownPreview
