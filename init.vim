@@ -1,28 +1,30 @@
 if &compatible
-	set nocompatible
+    set nocompatible
 endif
 
 let s:pluginpath = ""
 if has('win32')
-	let s:pluginpath = ""
+    let s:pluginpath = ""
 else
-	if empty(glob('~/.nvim/dein/repos/github.com/Shougo/dein.vim'))
-		!git clone https://github.com/Shougo/dein.vim ~/.nvim/dein/repos/github.com/Shougo/dein.vim
-	endif
-	set runtimepath+=~/.nvim/dein/repos/github.com/Shougo/dein.vim
-	let s:pluginpath = "~/.nvim/dein"
+    if empty(glob('~/.nvim/dein/repos/github.com/Shougo/dein.vim'))
+        !git clone https://github.com/Shougo/dein.vim ~/.nvim/dein/repos/github.com/Shougo/dein.vim
+    endif
+    set runtimepath+=~/.nvim/dein/repos/github.com/Shougo/dein.vim
+    let s:pluginpath = "~/.nvim/dein"
 endif
 
 call dein#begin(s:pluginpath)
-	call dein#add("~/.nvim/dein/repos/github.com/Shougo/dein.vim")
-	call dein#add("ayu-theme/ayu-vim")
-	call dein#add('iamcco/markdown-preview.nvim', {'on_ft': ['markdown', 'pandoc.markdown', 'rmd'],
-	   				\ 'build': 'sh -c "cd app && yarn install"' })
-	call dein#add('preservim/nerdtree')
-	call dein#add('Xuyuanp/nerdtree-git-plugin')
-	call dein#add('dense-analysis/ale')
-	call dein#add('vim-airline/vim-airline')
-	call dein#add('airblade/vim-gitgutter')
+    call dein#add("~/.nvim/dein/repos/github.com/Shougo/dein.vim")
+"   call dein#add("ayu-theme/ayu-vim")
+    call dein#add("drewtempelmeyer/palenight.vim")
+    call dein#add('iamcco/markdown-preview.nvim', {'on_ft': ['markdown', 'pandoc.markdown', 'rmd'],
+                    \ 'build': 'sh -c "cd app && yarn install"' })
+    call dein#add('preservim/nerdtree')
+    call dein#add('Xuyuanp/nerdtree-git-plugin')
+"   call dein#add('dense-analysis/ale')
+    call dein#add('neoclide/coc.nvim', { 'merged': 0, 'rev': 'release' })
+    call dein#add('vim-airline/vim-airline')
+    call dein#add('airblade/vim-gitgutter')
 call dein#end()
 
 if dein#check_install()
@@ -32,15 +34,19 @@ endif
 filetype plugin indent on
 syntax enable
 
+" ======= palenight =======
+" set background=dark
+colorscheme palenight
+
 " ======= ayu =======
 set termguicolors
-let TIME_H = strftime("%H")
-if TIME_H >= 7 && TIME_H <= 17
-	let ayucolor = "light"
-else
-	let ayucolor = "dark"
-endif
-colorscheme ayu
+" let TIME_H = strftime("%H")
+" if TIME_H >= 7 && TIME_H <= 17
+"   let ayucolor = "light"
+" else
+"   let ayucolor = "dark"
+" endif
+" colorscheme ayu
 
 map H <nop>
 map L <nop>
@@ -60,7 +66,8 @@ set showcmd
 set wildmenu
 
 set encoding=utf-8
-set noexpandtab   " One <tab> will Be Saved     as      '\t' but not ' '
+set expandtab
+" set noexpandtab   " One <tab> will Be Saved     as      '\t' but not ' '
 set tabstop=4     " One '\t'  will be displayed as four ' '
 set shiftwidth=4  " One <tab> is equal to four <Space>
 set softtabstop=4 " When you press the <Backspace>, four' ' will be deleted as a tab
@@ -79,22 +86,57 @@ noremap <ESC> :nohlsearch<CR>:NERDTreeClose<CR>
 " ======= Sao Operations =======
 
 " Single line moving
-noremap <C-S-j> ddp
-noremap <C-S-k> ddkkp
+noremap <C-J> ddp
+noremap <C-K> ddkkp
 
 " ======= Compile functions =======
 map <LEADER>c :call Compile()<CR>
 func! Compile()
-	exec 'w'
-	if &filetype == 'c'
-		exec '!gcc % -o %<'
-		" exec '!time ./%<'
-	elseif &filetype == 'cpp'
-		exec '!g++ % -o %<'
-	elseif &filetype == 'markdown'
-		exec 'MarkdownPreview'
-	endif
+    exec 'w'
+    if &filetype == 'c'
+        exec '!gcc % -o %<'
+        exec '!time konsole -e ./%<'
+        " exec '!time ./%<'
+    elseif &filetype == 'cpp'
+        exec '!g++ % -o %<'
+        exec '!time konsole -e ./%<'
+    elseif &filetype == 'markdown'
+        exec 'MarkdownPreview'
+    endif
 endfunc
+
+
+let g:coc_global_extensions = [
+            \ 'coc-clangd',
+            \ 'coc-cmake',
+            \ 'coc-css',
+            \ 'coc-cssmodules',
+            \ 'coc-eslint',
+            \ 'coc-gist',
+            \ 'coc-git',
+            \ 'coc-glslx',
+            \ 'coc-go',
+            \ 'coc-graphql',
+            \ 'coc-highlight',
+            \ 'coc-html',
+            \ 'coc-htmldjango',
+            \ 'coc-htmlhint',
+            \ 'coc-html-css-support',
+            \ 'coc-java',
+            \ 'coc-json',
+            \ 'coc-markdownlint',
+            \ 'coc-powershell',
+            \ 'coc-prettier',
+            \ 'coc-python',
+            \ 'coc-sh',
+            \ 'coc-stylelintplus',
+            \ 'coc-svg',
+            \ 'coc-tailwindcss',
+            \ 'coc-translator',
+            \ 'coc-tsserver',
+            \ 'coc-webview',
+            \ 'coc-xml',
+            \ 'coc-yaml']
 
 
 " ======= Markdown =======
