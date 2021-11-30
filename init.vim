@@ -4,7 +4,11 @@ endif
 
 let s:pluginpath = ""
 if has('win32')
-    let s:pluginpath = ""
+    if empty(glob('~/.nvim/dein/repos/github.com/Shougo/dein.vim'))
+        !powershell -Command "cd ~ | git clone https://github.com/Shougo/dein.vim .nvim/dein/repos/github.com/Shougo/dein.vim"
+    endif
+    set runtimepath+=~/.nvim/dein/repos/github.com/Shougo/dein.vim
+    let s:pluginpath = "~/.nvim/dein"
 else
     if empty(glob('~/.nvim/dein/repos/github.com/Shougo/dein.vim'))
         !git clone https://github.com/Shougo/dein.vim ~/.nvim/dein/repos/github.com/Shougo/dein.vim
