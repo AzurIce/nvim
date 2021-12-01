@@ -99,7 +99,11 @@ func! Compile()
     exec 'w'
     if &filetype == 'c'
         exec '!gcc % -o %<'
-        exec '!time konsole -e ./%<'
+        if has('win32')
+            exec '!wt ./%'
+        else
+            exec '!time konsole -e ./%<'
+        endif
         " exec '!time ./%<'
     elseif &filetype == 'cpp'
         exec '!g++ % -o %<'
