@@ -2,19 +2,14 @@ if &compatible
     set nocompatible
 endif
 
-let s:pluginpath = ""
-if has('win32')
-    if empty(glob('~/.nvim/dein/repos/github.com/Shougo/dein.vim'))
+let s:pluginpath = "~/.nvim/dein"
+set runtimepath+=~/.nvim/dein/repos/github.com/Shougo/dein.vim
+if empty(glob('~/.nvim/dein/repos/github.com/Shougo/dein.vim'))
+    if has('win32')
         !powershell -Command "cd ~ | git clone https://github.com/Shougo/dein.vim .nvim/dein/repos/github.com/Shougo/dein.vim"
-    endif
-    set runtimepath+=~/.nvim/dein/repos/github.com/Shougo/dein.vim
-    let s:pluginpath = "~/.nvim/dein"
-else
-    if empty(glob('~/.nvim/dein/repos/github.com/Shougo/dein.vim'))
+    else
         !git clone https://github.com/Shougo/dein.vim ~/.nvim/dein/repos/github.com/Shougo/dein.vim
     endif
-    set runtimepath+=~/.nvim/dein/repos/github.com/Shougo/dein.vim
-    let s:pluginpath = "~/.nvim/dein"
 endif
 
 call dein#begin(s:pluginpath)
@@ -100,7 +95,7 @@ func! Compile()
     if &filetype == 'c'
         exec '!gcc % -o %<'
         if has('win32')
-            exec '!wt ./%'
+            exec '!wt ./%<'
         else
             exec '!time konsole -e ./%<'
         endif
