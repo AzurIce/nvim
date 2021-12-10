@@ -33,6 +33,7 @@ call dein#end()
 
 if dein#check_install()
  call dein#install()
+    
 endif
 
 filetype plugin indent on
@@ -87,11 +88,26 @@ noremap - Nzz
 noremap = nzz
 noremap <ESC> :nohlsearch<CR>:NERDTreeClose<CR>
 
+" ======= Windows Operations ======= <C-w>
+map <C-h> <nop>
+map <C-j> <nop>
+map <C-k> <nop>
+map <C-l> <nop>
+map <C-n> <nop>
+noremap <C-n> :split<CR><C-w>k<C-w>H
+
+" ======= Terminal Operations =======
+nmap <LEADER>t <nop>
+nmap <LEADER>t <C-n><C-w>J7<C-w>_:terminal<CR>
+tmap <ESC> <C-\><C-n>
+
 " ======= Sao Operations =======
 
 " Single line moving
-noremap <C-J> ddp
-noremap <C-K> ddkkp
+noremap <C-S-j> ddp
+noremap <C-S-k> ddkkp
+
+inoremap {<CR> {<CR><CR>}<ESC>kA<tab>
 
 " ======= Compile functions =======
 map <LEADER>c :call Compile()<CR>
@@ -99,21 +115,21 @@ func! Compile()
     exec 'w'
     if &filetype == 'c'
         exec '!gcc % -o %<'
-        if has('win32')
-            exec '!wt ./%'
-        else
-            exec '!time konsole -e ./%<'
-        endif
-        " exec '!time ./%<'
+        :sp
+        :7wincmd _
+        :terminal ./%<
     elseif &filetype == 'cpp'
         exec '!g++ % -o %<'
-        exec '!time konsole -e ./%<'
+        :sp
+        :7wincmd _
+        :terminal ./%<
     elseif &filetype == 'markdown'
         exec 'MarkdownPreview'
     endif
 endfunc
 
 
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
 let g:coc_global_extensions = [
             \ 'coc-clangd',
             \ 'coc-cmake',
