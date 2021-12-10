@@ -116,11 +116,13 @@ func! Compile()
     if &filetype == 'c'
         exec '!gcc % -o %<'
         :sp
+        :wincmd J
         :7wincmd _
         :terminal ./%<
     elseif &filetype == 'cpp'
         exec '!g++ % -o %<'
         :sp
+        :wincmd J
         :7wincmd _
         :terminal ./%<
     elseif &filetype == 'markdown'
