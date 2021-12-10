@@ -270,4 +270,3 @@ autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTa
 
 " ======= gitgutter =======
 let g:gitgutter_map_keys = 0
-
