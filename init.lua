@@ -43,10 +43,11 @@ require('packer').startup(function()
   -- use 'foo1/bar1.nvim'
   -- use 'foo2/bar2.nvim'
   use 'wbthomason/packer.nvim'
-  use 'neovim/nvim-lspconfig'
+  -- use 'neovim/nvim-lspconfig'
   use 'drewtempelmeyer/palenight.vim'
   use 'preservim/nerdtree'
   use 'Xuyuanp/nerdtree-git-plugin'
+  use {'neoclide/coc.nvim', branch = 'release'}
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
@@ -58,8 +59,45 @@ end)
 vim.api.nvim_command 'PackerInstall'
 
 -- LSPs
-require'lspconfig'.pyright.setup{}
-require'lspconfig'.clangd.setup{}
+-- require'lspconfig'.pyright.setup{}
+-- require'lspconfig'.clangd.setup{}
+
+-- Coc.nvim
+vim.api.nvim_set_keymap('i', '<CR>', 'pumvisible() ? "<C-y>" : "<C-g>u<CR>"',
+    { noremap = true, expr = true })
+vim.api.nvim_set_keymap('i', '<CR>', 'pumvisible() ? coc#_select_confirm() : "<C-g>u<CR>"',
+    { noremap = true, expr = true, silent = true })
+
+vim.g.coc_global_extensions = {
+    'coc-clangd',
+    'coc-cmake',
+    'coc-css',
+    'coc-cssmodules',
+    'coc-eslint',
+    'coc-git',
+    'coc-glslx',
+    'coc-go',
+    'coc-golines',
+    'coc-highlight',
+    'coc-html',
+    'coc-java',
+    'coc-json',
+    'coc-ltex',
+    'coc-markdownlint',
+    'coc-markdown-preview-enhanced',
+    'coc-powershell',
+    'coc-prettier',
+    'coc-pydocstring',
+    'coc-pyright',
+    'coc-sh',
+    'coc-stylelintplus',
+    'coc-svg',
+    'coc-tailwindcss',
+    'coc-tsserver',
+    'coc-vimlsp',
+    'coc-xml',
+    'coc-yaml'
+}
 
 -- Searching --
 opt.ignorecase = true
@@ -96,8 +134,8 @@ vim.api.nvim_set_keymap('', 'H', '0', {noremap = true})
 vim.api.nvim_set_keymap('', 'L', '$', {noremap = true})
 
 -- Useful little things
-vim.api.nvim_set_keymap('', '<C-J>', 'ddp', {noremap = true})
-vim.api.nvim_set_keymap('', '<C-K>', 'ddkkp', {noremap = true})
+-- vim.api.nvim_set_keymap('', '<C-S-J>', 'ddp', {noremap = true})
+-- vim.api.nvim_set_keymap('', '<C-S-K>', 'ddkkp', {noremap = true})
 
 vim.g.mapleader = ' '
 vim.api.nvim_set_keymap('', '<LEADER>e', ':NERDTreeToggle<CR>', {noremap = true})
