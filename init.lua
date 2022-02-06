@@ -20,11 +20,15 @@ opt.smartindent = true
 
 opt.autoread = true -- Read file when changed outside of Vim
 
+local fn = vim.fn
+
+if fn.has('win32') then
+    opt.runtimepath : prepend(fn.stdpath('data') .. 'site/pack/packer/start/packer.vim')
+end
 
 -------------------------
 -- Install packer.nvim --
 -------------------------
-local fn = vim.fn
 local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
   packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
@@ -70,9 +74,11 @@ opt.termguicolors = true
 vim.api.nvim_command 'colorscheme palenight'
 vim.g.background=dark
 vim.g.winblend=10
-vim.cmd('hi Normal guibg=None ctermbg=None')
--- vim.cmd('hi StatusLine guibg=None ctermbg=None')
-vim.cmd('hi CursorLine guibg=None ctermbg=None')
+if not fn.has('win32') then
+    vim.cmd('hi Normal guibg=None ctermbg=None')
+    -- vim.cmd('hi StatusLine guibg=None ctermbg=None')
+    vim.cmd('hi CursorLine guibg=None ctermbg=None')
+end
 
 ---------------
 -- Keymaping --
