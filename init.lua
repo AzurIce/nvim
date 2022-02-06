@@ -41,6 +41,8 @@ require('packer').startup(function()
   use 'wbthomason/packer.nvim'
   use 'neovim/nvim-lspconfig'
   use 'drewtempelmeyer/palenight.vim'
+  use 'preservim/nerdtree'
+  use 'Xuyuanp/nerdtree-git-plugin'
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
@@ -49,8 +51,11 @@ require('packer').startup(function()
   end
 end)
 
+vim.api.nvim_command 'PackerInstall'
+
 -- LSPs
 require'lspconfig'.pyright.setup{}
+require'lspconfig'.clangd.setup{}
 
 -- Searching --
 opt.ignorecase = true
@@ -63,6 +68,11 @@ vim.api.nvim_set_keymap('', '<ESC>', ':nohlsearch<CR>', {noremap = true})
 -- Colorscheme --
 opt.termguicolors = true
 vim.api.nvim_command 'colorscheme palenight'
+vim.g.background=dark
+vim.g.winblend=10
+vim.cmd('hi Normal guibg=None ctermbg=None')
+-- vim.cmd('hi StatusLine guibg=None ctermbg=None')
+vim.cmd('hi CursorLine guibg=None ctermbg=None')
 
 ---------------
 -- Keymaping --
@@ -82,4 +92,18 @@ vim.api.nvim_set_keymap('', 'L', '$', {noremap = true})
 -- Useful little things
 vim.api.nvim_set_keymap('', '<C-J>', 'ddp', {noremap = true})
 vim.api.nvim_set_keymap('', '<C-K>', 'ddkkp', {noremap = true})
+
+vim.g.mapleader = ' '
+vim.api.nvim_set_keymap('', '<LEADER>e', ':NERDTreeToggle<CR>', {noremap = true})
+vim.g.NERDTreeMapChangeRoot = 'l'
+vim.g.NERDTreeMapUpdir = 'h'
+vim.g.NERDTreeMapUpdirKeepOpen = ''
+-- Exit Vim if NERDTree is the only window remaining in the only tab.
+vim.cmd([[
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+]])
+-- Close the tab if NERDTree is the only window remaining in it.
+vim.cmd([[
+autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+]])
 
