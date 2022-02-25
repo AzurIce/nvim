@@ -2,6 +2,11 @@ local keymap = vim.api.nvim_set_keymap
 local fn = vim.fn
 local opt = vim.opt
 
+opt.list = true
+opt.listchars = { tab = '>-', trail = '▫' }
+-- 
+    -- 
+        -- asd
 opt.number = true
 opt.relativenumber = true
 opt.cursorline = true
@@ -161,6 +166,9 @@ keymap('n', '<Tab>', 'v:count!=0? ":<C-u>" . v:count . "tabn<CR>" : ":tabn<CR>"'
 keymap('n', '<S-Tab>', ':-tabn<CR>', {noremap = true})
 keymap('n', '<C-n>', ':tabe<CR>', {noremap = true})
 
+-- Jumping
+keymap('n', '<C-l>', 'gf', {noremap = true})
+keymap('n', '<C-h>', ':e#<CR>', {noremap = true})
 
 -- Useful little things
 -- vim.api.nvim_set_keymap('', '<C-S-J>', 'ddp', {noremap = true})
@@ -180,3 +188,32 @@ vim.cmd([[
 autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 ]])
 
+-------------
+-- Compile --
+-------------
+function compile()
+    if api.has('win32') then
+        vim.cmd('exec "!wt"')
+    end
+end
+keymap('n', '<LEADER>c', ':call v:lua.compile()<CR>', {noremap = true})
+vim.cmd([[
+func! Compile()
+    exec 'w'
+    if &filetype == 'c'
+        exec '!gcc % -o %<'
+        :sp
+        :wincmd J
+        :7wincmd _
+        :terminal ./%<
+    elseif &filetype == 'cpp'
+        exec '!g++ % -o %<'
+        :sp
+        :wincmd J
+        :7wincmd _
+        :terminal ./%<
+    elseif &filetype == 'markdown'
+        exec 'MarkdownPreview'
+    endif
+endfunc
+]])
