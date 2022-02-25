@@ -167,8 +167,8 @@ keymap('n', '<S-Tab>', ':-tabn<CR>', {noremap = true})
 keymap('n', '<C-n>', ':tabe<CR>', {noremap = true})
 
 -- Jumping
-keymap('n', '<C-l>', 'gf', {noremap = true})
-keymap('n', '<C-h>', ':e#<CR>', {noremap = true})
+keymap('n', '<C-]>', 'gf', {noremap = true})
+keymap('n', '<C-[>', ':e#<CR>', {noremap = true})
 
 -- Useful little things
 -- vim.api.nvim_set_keymap('', '<C-S-J>', 'ddp', {noremap = true})
@@ -191,29 +191,20 @@ autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTa
 -------------
 -- Compile --
 -------------
+keymap('n', '<LEADER>c', ':call v:lua.compile()<CR>', {noremap = true})
 function compile()
-    if api.has('win32') then
-        vim.cmd('exec "!wt"')
+    if fn.has('win32') then
+        vim.cmd[[
+            exec 'w'
+            if &filetype == 'c'
+                exec '!gcc % -o %<'
+                :!powershell wt powershell -Command {./%< ; pause}
+            elseif &filetype == 'cpp'
+                exec '!g++ % -o %<'
+                :!powershell wt powershell -Command {./%< ; pause}
+            elseif &filetype == 'markdown'
+                exec 'MarkdownPreview'
+            endif
+        ]]
     end
 end
-keymap('n', '<LEADER>c', ':call v:lua.compile()<CR>', {noremap = true})
-vim.cmd([[
-func! Compile()
-    exec 'w'
-    if &filetype == 'c'
-        exec '!gcc % -o %<'
-        :sp
-        :wincmd J
-        :7wincmd _
-        :terminal ./%<
-    elseif &filetype == 'cpp'
-        exec '!g++ % -o %<'
-        :sp
-        :wincmd J
-        :7wincmd _
-        :terminal ./%<
-    elseif &filetype == 'markdown'
-        exec 'MarkdownPreview'
-    endif
-endfunc
-]])
