@@ -1,4 +1,7 @@
+local keymap = vim.api.nvim_set_keymap
+local fn = vim.fn
 local opt = vim.opt
+
 opt.number = true
 opt.relativenumber = true
 opt.cursorline = true
@@ -17,10 +20,7 @@ opt.shiftwidth = 4 -- One '\t' is equal to four ' '
 opt.autoindent = true
 opt.smartindent = true
 
-
 opt.autoread = true -- Read file when changed outside of Vim
-
-local fn = vim.fn
 
 if fn.has('win32') then
     opt.runtimepath : prepend(fn.stdpath('data') .. 'site/pack/packer/start/packer.vim')
@@ -121,17 +121,46 @@ end
 ---------------
 -- Keymaping --
 ---------------
-vim.api.nvim_set_keymap('', 'H', '<nop>', {})
-vim.api.nvim_set_keymap('', 'L', '<nop>', {})
-vim.api.nvim_set_keymap('', 's', '<nop>', {})
-vim.api.nvim_set_keymap('', 'S', ':w<CR>', {})
-vim.api.nvim_set_keymap('', 'Q', ':q<CR>', {})
-vim.api.nvim_set_keymap('', 'R', ':source $MYVIMRC<CR>', {})
+keymap('', 's', '<nop>', {})
+keymap('', 'S', ':w<CR>', {})
+keymap('', 'Q', ':q<CR>', {})
+keymap('', 'R', ':source $MYVIMRC<CR>', {})
 
-vim.api.nvim_set_keymap('', 'J', '7j', {noremap = true})
-vim.api.nvim_set_keymap('', 'K', '7k', {noremap = true})
-vim.api.nvim_set_keymap('', 'H', '0', {noremap = true})
-vim.api.nvim_set_keymap('', 'L', '$', {noremap = true})
+keymap('', 'J', '7j', {noremap = true})
+keymap('', 'K', '7k', {noremap = true})
+keymap('', 'H', '<nop>', {})
+keymap('', 'H', '0', {noremap = true})
+keymap('', 'L', '<nop>', {})
+keymap('', 'L', '$', {noremap = true})
+
+keymap('v', '<Tab>', '>gv', {noremap = true})
+keymap('v', '<S-Tab>', '<gv', {noremap = true})
+
+-- keymap('v', '<A-j>', '<nop>', {noremap = true})
+-- keymap('v', '<A-k>', '<nop>', {noremap = true})
+-- keymap('v', '<A-j>', ':m .+1<CR>==', {noremap = true})
+-- keymap('v', '<A-k>', ':m .-2<CR>==', {noremap = true})
+-- keymap('v', 'p', '"_dP', {noremap = true})
+
+-- Windowing
+keymap('n', '<C-s>h', ':vsplit<CR>', {})
+keymap('n', '<C-s>j', ':split<CR><C-j>', {})
+keymap('n', '<C-s>k', ':split<CR>', {})
+keymap('n', '<C-s>l', ':vsplit<CR><C-l>', {})
+keymap('n', '<C-h>', '<C-w>h', {noremap = true})
+keymap('n', '<C-j>', '<C-w>j', {noremap = true})
+keymap('n', '<C-k>', '<C-w>k', {noremap = true})
+keymap('n', '<C-l>', '<C-w>l', {noremap = true})
+
+keymap('n', '<C-A-j>', ':resize -2<CR>', {noremap = true})
+keymap('n', '<C-A-k>', ':resize +2<CR>', {noremap = true})
+keymap('n', '<C-A-h>', ':vertical resize -2<CR>', {noremap = true})
+keymap('n', '<C-A-l>', ':vertical resize +2<CR>', {noremap = true})
+-- Tabpaging
+keymap('n', '<Tab>', 'v:count!=0? ":<C-u>" . v:count . "tabn<CR>" : ":tabn<CR>"', {noremap = true, expr = true})
+keymap('n', '<S-Tab>', ':-tabn<CR>', {noremap = true})
+keymap('n', '<C-n>', ':tabe<CR>', {noremap = true})
+
 
 -- Useful little things
 -- vim.api.nvim_set_keymap('', '<C-S-J>', 'ddp', {noremap = true})
