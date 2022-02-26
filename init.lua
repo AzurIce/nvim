@@ -34,7 +34,7 @@ end
 -------------------------
 -- Install packer.nvim --
 -------------------------
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
   packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
 end
@@ -44,14 +44,17 @@ end
 ------------------------
 local use = require('packer').use
 require('packer').startup(function()
-  -- My plugins here
-  -- use 'foo1/bar1.nvim'
-  -- use 'foo2/bar2.nvim'
   use 'wbthomason/packer.nvim'
   -- use 'neovim/nvim-lspconfig'
   use 'drewtempelmeyer/palenight.vim'
-  use 'preservim/nerdtree'
-  use 'Xuyuanp/nerdtree-git-plugin'
+  use {
+    'kyazdani42/nvim-tree.lua',
+    requires = {
+      'kyazdani42/nvim-web-devicons', -- optional, for file icon
+    }
+  }
+  -- use 'preservim/nerdtree'
+  -- use 'Xuyuanp/nerdtree-git-plugin'
   use {'neoclide/coc.nvim', branch = 'release'}
 
   -- Automatically set up your configuration after cloning packer.nvim
@@ -60,6 +63,10 @@ require('packer').startup(function()
     require('packer').sync()
   end
 end)
+
+require'nvim-tree'.setup {
+
+}
 
 vim.api.nvim_command 'PackerInstall'
 
@@ -167,26 +174,27 @@ keymap('n', '<S-Tab>', ':-tabn<CR>', {noremap = true})
 keymap('n', '<C-n>', ':tabe<CR>', {noremap = true})
 
 -- Jumping
-keymap('n', '<C-]>', 'gf', {noremap = true})
-keymap('n', '<C-[>', ':e#<CR>', {noremap = true})
+-- keymap('n', '<C-]>', 'gf', {noremap = true})
+-- keymap('n', '<C-[>', ':e#<CR>', {noremap = true})
 
 -- Useful little things
 -- vim.api.nvim_set_keymap('', '<C-S-J>', 'ddp', {noremap = true})
 -- vim.api.nvim_set_keymap('', '<C-S-K>', 'ddkkp', {noremap = true})
 
 vim.g.mapleader = ' '
-vim.api.nvim_set_keymap('', '<LEADER>e', ':NERDTreeToggle<CR>', {noremap = true})
-vim.g.NERDTreeMapChangeRoot = 'l'
-vim.g.NERDTreeMapUpdir = 'h'
-vim.g.NERDTreeMapUpdirKeepOpen = ''
+keymap('n', '<LEADER>e', ':NvimTreeToggle<CR>', {noremap = true})
+-- vim.api.nvim_set_keymap('', '<LEADER>e', ':NERDTreeToggle<CR>', {noremap = true})
+-- vim.g.NERDTreeMapChangeRoot = 'l'
+-- vim.g.NERDTreeMapUpdir = 'h'
+-- vim.g.NERDTreeMapUpdirKeepOpen = ''
 -- Exit Vim if NERDTree is the only window remaining in the only tab.
-vim.cmd([[
-autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
-]])
+-- vim.cmd([[
+-- autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+-- ]])
 -- Close the tab if NERDTree is the only window remaining in it.
-vim.cmd([[
-autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
-]])
+-- vim.cmd([[
+-- autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+-- ]])
 
 -------------
 -- Compile --
