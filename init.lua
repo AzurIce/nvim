@@ -2,11 +2,11 @@ local keymap = vim.api.nvim_set_keymap
 local fn = vim.fn
 local opt = vim.opt
 
+vim.g.mapleader = ' '
+
 opt.list = true
 opt.listchars = { tab = '>-', trail = '▫' }
--- 
-    -- 
-        -- asd
+
 opt.number = true
 opt.relativenumber = true
 opt.cursorline = true
@@ -64,60 +64,30 @@ require('packer').startup(function()
   end
 end)
 
-require'nvim-tree'.setup {
-
-}
-
 vim.api.nvim_command 'PackerInstall'
+
+-- Plugins
+require 'NvimTree'
+keymap('n', '<LEADER>e', ':NvimTreeToggle<CR>', {noremap = true})
+
+require 'Coc'
+keymap('i', '<CR>', 'pumvisible() ? "<C-y>" : "<C-g>u<CR>"',
+    { noremap = true, expr = true })
+keymap('i', '<CR>', 'pumvisible() ? coc#_select_confirm() : "<C-g>u<CR>"',
+    { noremap = true, expr = true, silent = true })
+
 
 -- LSPs
 -- require'lspconfig'.pyright.setup{}
 -- require'lspconfig'.clangd.setup{}
 
--- Coc.nvim
-vim.api.nvim_set_keymap('i', '<CR>', 'pumvisible() ? "<C-y>" : "<C-g>u<CR>"',
-    { noremap = true, expr = true })
-vim.api.nvim_set_keymap('i', '<CR>', 'pumvisible() ? coc#_select_confirm() : "<C-g>u<CR>"',
-    { noremap = true, expr = true, silent = true })
-
-vim.g.coc_global_extensions = {
-    'coc-clangd',
-    'coc-cmake',
-    'coc-css',
-    'coc-cssmodules',
-    'coc-eslint',
-    'coc-git',
-    'coc-glslx',
-    'coc-go',
-    'coc-golines',
-    'coc-highlight',
-    'coc-html',
-    'coc-java',
-    'coc-json',
-    'coc-ltex',
-    'coc-markdownlint',
-    'coc-markdown-preview-enhanced',
-    'coc-powershell',
-    'coc-prettier',
-    'coc-pydocstring',
-    'coc-pyright',
-    'coc-sh',
-    'coc-stylelintplus',
-    'coc-svg',
-    'coc-tailwindcss',
-    'coc-tsserver',
-    'coc-vimlsp',
-    'coc-xml',
-    'coc-yaml'
-}
-
 -- Searching --
 opt.ignorecase = true
 opt.incsearch = true
 opt.smartcase = true
-vim.api.nvim_set_keymap('', '-', 'Nzz', {noremap = true})
-vim.api.nvim_set_keymap('', '=', 'nzz', {noremap = true})
-vim.api.nvim_set_keymap('', '<ESC>', ':nohlsearch<CR>', {noremap = true})
+keymap('', '-', 'Nzz', {noremap = true})
+keymap('', '=', 'nzz', {noremap = true})
+keymap('', '<ESC>', ':nohlsearch<CR>', {noremap = true})
 
 -- Colorscheme --
 opt.termguicolors = true
@@ -147,6 +117,9 @@ keymap('', 'L', '$', {noremap = true})
 
 keymap('v', '<Tab>', '>gv', {noremap = true})
 keymap('v', '<S-Tab>', '<gv', {noremap = true})
+
+keymap('n', '<C-a>', 'gg<S-v>G', {noremap = true})
+keymap('n', '<C-c>', '"+y', {noremap = true})
 
 -- keymap('v', '<A-j>', '<nop>', {noremap = true})
 -- keymap('v', '<A-k>', '<nop>', {noremap = true})
@@ -178,23 +151,9 @@ keymap('n', '<C-n>', ':tabe<CR>', {noremap = true})
 -- keymap('n', '<C-[>', ':e#<CR>', {noremap = true})
 
 -- Useful little things
--- vim.api.nvim_set_keymap('', '<C-S-J>', 'ddp', {noremap = true})
--- vim.api.nvim_set_keymap('', '<C-S-K>', 'ddkkp', {noremap = true})
+-- keymap('', '<C-S-J>', 'ddp', {noremap = true})
+-- keymap('', '<C-S-K>', 'ddkkp', {noremap = true})
 
-vim.g.mapleader = ' '
-keymap('n', '<LEADER>e', ':NvimTreeToggle<CR>', {noremap = true})
--- vim.api.nvim_set_keymap('', '<LEADER>e', ':NERDTreeToggle<CR>', {noremap = true})
--- vim.g.NERDTreeMapChangeRoot = 'l'
--- vim.g.NERDTreeMapUpdir = 'h'
--- vim.g.NERDTreeMapUpdirKeepOpen = ''
--- Exit Vim if NERDTree is the only window remaining in the only tab.
--- vim.cmd([[
--- autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
--- ]])
--- Close the tab if NERDTree is the only window remaining in it.
--- vim.cmd([[
--- autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
--- ]])
 
 -------------
 -- Compile --
