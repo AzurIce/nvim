@@ -287,9 +287,9 @@ function compile()
         vim.cmd[[
             exec 'w'
             if &filetype == 'c'
-                exec '!gcc % -o %<'
+                exec '!gcc "%" -o "%<"'
             elseif &filetype == 'cpp'
-                exec '!g++ % -o %<'
+                exec '!g++ "%" -o "%<"'
             elseif &filetype == 'markdown'
                 exec 'MarkdownPreview'
             endif
