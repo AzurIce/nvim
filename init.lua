@@ -36,7 +36,7 @@ end
 -------------------------
 local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
-  packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
 end
 
 ------------------------
@@ -44,31 +44,36 @@ end
 ------------------------
 local use = require('packer').use
 require('packer').startup(function()
-  use 'wbthomason/packer.nvim'
+    use 'wbthomason/packer.nvim'
 
-  use 'hrsh7th/nvim-cmp'
+    use 'hrsh7th/nvim-cmp'
 
-  use 'hrsh7th/cmp-buffer'
-  use 'hrsh7th/cmp-path'
-  use 'hrsh7th/cmp-cmdline'
+    use 'hrsh7th/cmp-buffer'
+    use 'hrsh7th/cmp-path'
+    use 'hrsh7th/cmp-cmdline'
 
-  -- use 'neovim/nvim-lspconfig'
-  use 'drewtempelmeyer/palenight.vim'
-  use {
-    'kyazdani42/nvim-tree.lua',
-    requires = {
-      'kyazdani42/nvim-web-devicons', -- optional, for file icon
+    use {
+        'neovim/nvim-lspconfig',
+        'williamboman/nvim-lsp-installer',
     }
-  }
-  -- use 'preservim/nerdtree'
-  -- use 'Xuyuanp/nerdtree-git-plugin'
-  -- use {'neoclide/coc.nvim', branch = 'release'}
+    use 'hrsh7th/cmp-nvim-lsp'
 
-  -- Automatically set up your configuration after cloning packer.nvim
-  -- Put this at the end after all plugins
-  if packer_bootstrap then
-    require('packer').sync()
-  end
+    use 'drewtempelmeyer/palenight.vim'
+    use {
+        'kyazdani42/nvim-tree.lua',
+        requires = {
+            'kyazdani42/nvim-web-devicons', -- optional, for file icon
+        }
+    }
+    -- use 'preservim/nerdtree'
+    -- use 'Xuyuanp/nerdtree-git-plugin'
+    -- use {'neoclide/coc.nvim', branch = 'release'}
+
+    -- Automatically set up your configuration after cloning packer.nvim
+    -- Put this at the end after all plugins
+    if packer_bootstrap then
+        require('packer').sync()
+    end
 end)
 
 vim.api.nvim_command 'PackerInstall'
@@ -80,11 +85,15 @@ keymap('n', '<LEADER>e', ':NvimTreeToggle<CR>', {noremap = true})
 local cmp = require'cmp'
 cmp.setup({
     mapping = {
+        ['<C-j>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+        ['<C-k>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+        ['<ESC>'] = cmp.mapping.close(),
         -- Accept currently selected item. If none selected, `select` first item.
         -- Set `select` to `false` to only confirm explicitly selected items.
         ['<CR>'] = cmp.mapping.confirm({ select = true }),
     },
     sources = cmp.config.sources({
+        { name = 'nvim_lsp' },
         { name = 'buffer' },
         { name = 'path' }
     })
@@ -105,21 +114,28 @@ cmp.setup.cmdline('/', {
     })
 })
 
-keymap('i', '<ESC>', 'v:lua.require\'cmp\'.visible() ? v:lua.require\'cmp\'.close() : "<ESC>"',
-    { noremap = true, expr = true })
+---------
+-- LSP --
+---------
 
--- require 'Coc'
--- keymap('i', '<ESC>', 'pumvisible() ? "<ESC>a" : "<ESC>"',
---     { noremap = true, expr = true })
--- keymap('i', '<CR>', 'pumvisible() ? "<C-y>" : "<C-g>u<CR>"',
---     { noremap = true, expr = true })
--- keymap('i', '<CR>', 'pumvisible() ? coc#_select_confirm() : "<C-g>u<CR>"',
---     { noremap = true, expr = true, silent = true })
+-- lsp-installer
+local lsp_installer = require("nvim-lsp-installer")
 
+-- Register a handler that will be called for each installed server when it's ready (i.e. when installation is finished
+-- or if the server is already installed).
+lsp_installer.on_server_ready(function(server)
+    local opts = {}
 
--- LSPs
--- require'lspconfig'.pyright.setup{}
--- require'lspconfig'.clangd.setup{}
+    -- (optional) Customize the options passed to the server
+    -- if server.name == "tsserver" then
+    --     opts.root_dir = function() ... end
+    -- end
+
+    -- This setup() function will take the provided server configuration and decorate it with the necessary properties
+    -- before passing it onwards to lspconfig.
+    -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+    server:setup(opts)
+end)
 
 -- Searching --
 opt.ignorecase = true
