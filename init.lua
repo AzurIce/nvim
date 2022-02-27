@@ -45,6 +45,13 @@ end
 local use = require('packer').use
 require('packer').startup(function()
   use 'wbthomason/packer.nvim'
+
+  use 'hrsh7th/nvim-cmp'
+
+  use 'hrsh7th/cmp-buffer'
+  use 'hrsh7th/cmp-path'
+  use 'hrsh7th/cmp-cmdline'
+
   -- use 'neovim/nvim-lspconfig'
   use 'drewtempelmeyer/palenight.vim'
   use {
@@ -55,7 +62,7 @@ require('packer').startup(function()
   }
   -- use 'preservim/nerdtree'
   -- use 'Xuyuanp/nerdtree-git-plugin'
-  use {'neoclide/coc.nvim', branch = 'release'}
+  -- use {'neoclide/coc.nvim', branch = 'release'}
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
@@ -70,13 +77,21 @@ vim.api.nvim_command 'PackerInstall'
 require 'NvimTree'
 keymap('n', '<LEADER>e', ':NvimTreeToggle<CR>', {noremap = true})
 
-require 'Coc'
-keymap('i', '<ESC>', 'pumvisible() ? "<ESC>a" : "<ESC>"',
-    { noremap = true, expr = true })
-keymap('i', '<CR>', 'pumvisible() ? "<C-y>" : "<C-g>u<CR>"',
-    { noremap = true, expr = true })
-keymap('i', '<CR>', 'pumvisible() ? coc#_select_confirm() : "<C-g>u<CR>"',
-    { noremap = true, expr = true, silent = true })
+local cmp = require'cmp'
+cmp.setup({
+    sources = cmp.config.sources({
+        { name = 'buffer' },
+        { name = 'path' }
+    })
+})
+
+-- require 'Coc'
+-- keymap('i', '<ESC>', 'pumvisible() ? "<ESC>a" : "<ESC>"',
+--     { noremap = true, expr = true })
+-- keymap('i', '<CR>', 'pumvisible() ? "<C-y>" : "<C-g>u<CR>"',
+--     { noremap = true, expr = true })
+-- keymap('i', '<CR>', 'pumvisible() ? coc#_select_confirm() : "<C-g>u<CR>"',
+--     { noremap = true, expr = true, silent = true })
 
 
 -- LSPs
