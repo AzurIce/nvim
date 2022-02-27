@@ -85,6 +85,21 @@ cmp.setup({
     })
 })
 
+-- 设置命令补全源
+cmp.setup.cmdline(':', {
+    sources = cmp.config.sources({
+        { name = 'path' },
+        { name = 'cmdline' }
+    })
+})
+
+-- 设置搜索补全源
+cmp.setup.cmdline('/', {
+    sources = cmp.config.sources({
+        { name = 'buffer' }
+    })
+})
+
 -- require 'Coc'
 -- keymap('i', '<ESC>', 'pumvisible() ? "<ESC>a" : "<ESC>"',
 --     { noremap = true, expr = true })
