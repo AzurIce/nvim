@@ -79,6 +79,11 @@ keymap('n', '<LEADER>e', ':NvimTreeToggle<CR>', {noremap = true})
 
 local cmp = require'cmp'
 cmp.setup({
+    mapping = {
+        -- Accept currently selected item. If none selected, `select` first item.
+        -- Set `select` to `false` to only confirm explicitly selected items.
+        ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    },
     sources = cmp.config.sources({
         { name = 'buffer' },
         { name = 'path' }
@@ -99,6 +104,9 @@ cmp.setup.cmdline('/', {
         { name = 'buffer' }
     })
 })
+
+keymap('i', '<ESC>', 'v:lua.require\'cmp\'.visible() ? v:lua.require\'cmp\'.close() : "<ESC>"',
+    { noremap = true, expr = true })
 
 -- require 'Coc'
 -- keymap('i', '<ESC>', 'pumvisible() ? "<ESC>a" : "<ESC>"',
@@ -165,8 +173,8 @@ keymap('n', '<C-s>j', ':split<CR><C-j>', {})
 keymap('n', '<C-s>k', ':split<CR>', {})
 keymap('n', '<C-s>l', ':vsplit<CR><C-l>', {})
 keymap('n', '<C-h>', '<C-w>h', {noremap = true})
-keymap('n', '<C-j>', '<C-w>j', {noremap = true})
-keymap('n', '<C-k>', '<C-w>k', {noremap = true})
+keymap('n', '<C-j>', 'v:lua.require\'cmp\'.visible() ? v:lua.require\'cmp\'.scroll_docs(4)  : "<C-w>j"', {noremap = true, expr = true})
+keymap('n', '<C-k>', 'v:lua.require\'cmp\'.visible() ? v:lua.require\'cmp\'.scroll_docs(-4) : "<C-w>k"', {noremap = true, expr = true})
 keymap('n', '<C-l>', '<C-w>l', {noremap = true})
 
 keymap('n', '<C-A-j>', ':resize -2<CR>', {noremap = true})
