@@ -276,11 +276,9 @@ function compile()
         vim.cmd[[
             exec 'w'
             if &filetype == 'c'
-                exec '!gcc % -o %<'
-                :!powershell wt powershell -Command {./%< ; pause}
+                exec '!gcc "%" -o "%<"'
             elseif &filetype == 'cpp'
-                exec '!g++ % -o %<'
-                :!powershell wt powershell -Command {./%< ; pause}
+                exec '!g++ "%" -o "%<"'
             elseif &filetype == 'markdown'
                 exec 'MarkdownPreview'
             endif
