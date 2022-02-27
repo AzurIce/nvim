@@ -2,11 +2,11 @@ local keymap = vim.api.nvim_set_keymap
 local fn = vim.fn
 local opt = vim.opt
 
+vim.g.mapleader = ' '
+
 opt.list = true
 opt.listchars = { tab = '>-', trail = '▫' }
--- 
-    -- 
-        -- asd
+
 opt.number = true
 opt.relativenumber = true
 opt.cursorline = true
@@ -64,22 +64,95 @@ require('packer').startup(function()
   end
 end)
 
-require'nvim-tree'.setup {
-
-}
-
 vim.api.nvim_command 'PackerInstall'
 
--- LSPs
--- require'lspconfig'.pyright.setup{}
--- require'lspconfig'.clangd.setup{}
+-- Plugins
+-- require 'NvimTree'
+require'nvim-tree'.setup {
+  disable_netrw        = false,
+  hijack_netrw         = true,
+  open_on_setup        = false,
+  ignore_ft_on_setup   = {},
+  auto_close           = false,
+  auto_reload_on_write = true,
+  open_on_tab          = true, -- default: false
+  hijack_cursor        = false,
+  update_cwd           = false,
+  hijack_unnamed_buffer_when_opening = false,
+  hijack_directories   = {
+    enable = true,
+    auto_open = true,
+  },
+  diagnostics = {
+    enable = false,
+    icons = {
+      hint = "",
+      info = "",
+      warning = "",
+      error = "",
+    }
+  },
+  update_focused_file = {
+    enable      = false,
+    update_cwd  = false,
+    ignore_list = {}
+  },
+  system_open = {
+    cmd  = nil,
+    args = {}
+  },
+  filters = {
+    dotfiles = false,
+    custom = {}
+  },
+  git = {
+    enable = true,
+    ignore = true,
+    timeout = 500,
+  },
+  view = {
+    width = 30,
+    height = 30,
+    hide_root_folder = false,
+    side = 'left',
+    auto_resize = false,
+    preserve_window_proportions = false,
+    mappings = {
+      custom_only = false,
+      list = {}
+    },
+    number = false,
+    relativenumber = false,
+    signcolumn = "yes"
+  },
+  trash = {
+    cmd = "trash",
+    require_confirm = true
+  },
+  actions = {
+    change_dir = {
+      enable = true,
+      global = false,
+    },
+    open_file = {
+      quit_on_open = false,
+      window_picker = {
+        enable = true,
+        chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
+        exclude = {
+          filetype = {
+            "notify",
+            "packer",
+            "qf"
+          }
+        }
+      }
+    }
+  }
+}
+keymap('n', '<LEADER>e', ':NvimTreeToggle<CR>', {noremap = true})
 
--- Coc.nvim
-vim.api.nvim_set_keymap('i', '<CR>', 'pumvisible() ? "<C-y>" : "<C-g>u<CR>"',
-    { noremap = true, expr = true })
-vim.api.nvim_set_keymap('i', '<CR>', 'pumvisible() ? coc#_select_confirm() : "<C-g>u<CR>"',
-    { noremap = true, expr = true, silent = true })
-
+-- require 'Coc'
 vim.g.coc_global_extensions = {
     'coc-clangd',
     'coc-cmake',
@@ -110,14 +183,23 @@ vim.g.coc_global_extensions = {
     'coc-xml',
     'coc-yaml'
 }
+keymap('i', '<CR>', 'pumvisible() ? "<C-y>" : "<C-g>u<CR>"',
+    { noremap = true, expr = true })
+keymap('i', '<CR>', 'pumvisible() ? coc#_select_confirm() : "<C-g>u<CR>"',
+    { noremap = true, expr = true, silent = true })
+
+
+-- LSPs
+-- require'lspconfig'.pyright.setup{}
+-- require'lspconfig'.clangd.setup{}
 
 -- Searching --
 opt.ignorecase = true
 opt.incsearch = true
 opt.smartcase = true
-vim.api.nvim_set_keymap('', '-', 'Nzz', {noremap = true})
-vim.api.nvim_set_keymap('', '=', 'nzz', {noremap = true})
-vim.api.nvim_set_keymap('', '<ESC>', ':nohlsearch<CR>', {noremap = true})
+keymap('', '-', 'Nzz', {noremap = true})
+keymap('', '=', 'nzz', {noremap = true})
+keymap('', '<ESC>', ':nohlsearch<CR>', {noremap = true})
 
 -- Colorscheme --
 opt.termguicolors = true
@@ -147,6 +229,9 @@ keymap('', 'L', '$', {noremap = true})
 
 keymap('v', '<Tab>', '>gv', {noremap = true})
 keymap('v', '<S-Tab>', '<gv', {noremap = true})
+
+keymap('n', '<C-a>', 'gg<S-v>G', {noremap = true})
+keymap('n', '<C-c>', '"+y', {noremap = true})
 
 -- keymap('v', '<A-j>', '<nop>', {noremap = true})
 -- keymap('v', '<A-k>', '<nop>', {noremap = true})
@@ -178,23 +263,9 @@ keymap('n', '<C-n>', ':tabe<CR>', {noremap = true})
 -- keymap('n', '<C-[>', ':e#<CR>', {noremap = true})
 
 -- Useful little things
--- vim.api.nvim_set_keymap('', '<C-S-J>', 'ddp', {noremap = true})
--- vim.api.nvim_set_keymap('', '<C-S-K>', 'ddkkp', {noremap = true})
+-- keymap('', '<C-S-J>', 'ddp', {noremap = true})
+-- keymap('', '<C-S-K>', 'ddkkp', {noremap = true})
 
-vim.g.mapleader = ' '
-keymap('n', '<LEADER>e', ':NvimTreeToggle<CR>', {noremap = true})
--- vim.api.nvim_set_keymap('', '<LEADER>e', ':NERDTreeToggle<CR>', {noremap = true})
--- vim.g.NERDTreeMapChangeRoot = 'l'
--- vim.g.NERDTreeMapUpdir = 'h'
--- vim.g.NERDTreeMapUpdirKeepOpen = ''
--- Exit Vim if NERDTree is the only window remaining in the only tab.
--- vim.cmd([[
--- autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
--- ]])
--- Close the tab if NERDTree is the only window remaining in it.
--- vim.cmd([[
--- autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
--- ]])
 
 -------------
 -- Compile --
