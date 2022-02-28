@@ -52,7 +52,7 @@ cmp.setup({
     mapping = {
         ['<C-j>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
         ['<C-k>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-        ['<ESC>'] = cmp.mapping(cmp.mapping.close(), { 'i', 'c' }),
+        ['<C-e>'] = cmp.mapping(cmp.mapping.close(), { 'i', 'c' }),
         -- Accept currently selected item. If none selected, `select` first item.
         -- Set `select` to `false` to only confirm explicitly selected items.
         ['<CR>'] = cmp.mapping.confirm({ select = true }),
