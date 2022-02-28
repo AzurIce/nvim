@@ -63,12 +63,16 @@ require('packer').startup(function()
     use 'hrsh7th/cmp-nvim-lsp'
 
     use 'drewtempelmeyer/palenight.vim'
-    use {
-        'kyazdani42/nvim-tree.lua',
-        requires = {
-            'kyazdani42/nvim-web-devicons', -- optional, for file icon
-        }
-    }
+
+    use 'kyazdani42/nvim-web-devicons'
+    use 'kyazdani42/nvim-tree.lua'
+
+    -- use {
+    --     'goolord/alpha-nvim',
+    --     config = function ()
+    --         require'alpha'.setup(require'alpha.themes.startify'.config)
+    --     end
+    -- }
 
     if packer_bootstrap then
         require('packer').sync()
