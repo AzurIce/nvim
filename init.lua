@@ -80,9 +80,8 @@ vim.api.nvim_command 'PackerInstall'
 -- Plugins
 require 'plugin-nvim-tree'
 keymap('n', '<LEADER>e', ':NvimTreeToggle<CR>', {noremap = true})
-
 require'plugin-cmp'
-require'plugin-lsp.init'
+require'plugin-lsp'
 
 -- Searching --
 opt.ignorecase = true
@@ -95,8 +94,8 @@ keymap('', '<ESC>', ':nohlsearch<CR>', {noremap = true})
 -- Colorscheme --
 opt.termguicolors = true
 vim.api.nvim_command 'colorscheme palenight'
-vim.g.background=dark
 vim.g.winblend=10
+
 if not fn.has('win32') then
     vim.cmd('hi Normal guibg=None ctermbg=None')
     -- vim.cmd('hi StatusLine guibg=None ctermbg=None')
@@ -109,7 +108,7 @@ end
 keymap('', 's', '<nop>', {})
 keymap('', 'S', ':w<CR>', {})
 keymap('', 'Q', ':q<CR>', {})
-keymap('', 'R', ':source $MYVIMRC<CR>', {})
+keymap('', 'R', '<silent>:source $MYVIMRC<CR>', {})
 
 keymap('', 'J', '7j', {noremap = true})
 keymap('', 'K', '7k', {noremap = true})
@@ -156,27 +155,14 @@ keymap('n', '<C-n>', ':tabe<CR>', {noremap = true})
 -------------
 keymap('n', '<LEADER>c', ':call v:lua.Compile()<CR>', {noremap = true})
 function Compile()
-    if fn.has('win32') then
-        vim.cmd[[
-            exec 'w'
-            if &filetype == 'c'
-                exec '!gcc "%" -o "%<"'
-            elseif &filetype == 'cpp'
-                exec '!g++ "%" -o "%<"'
-            elseif &filetype == 'markdown'
-                exec 'MarkdownPreview'
-            endif
-        ]]
-    else
-        vim.cmd[[
-            exec 'w'
-            if &filetype == 'c'
-                exec '!gcc "%" -o "%<"'
-            elseif &filetype == 'cpp'
-                exec '!g++ "%" -o "%<"'
-            elseif &filetype == 'markdown'
-                exec 'MarkdownPreview'
-            endif
-        ]]
-    end
+    vim.cmd[[
+        exec 'w'
+        if &filetype == 'c'
+            exec '!gcc "%" -o "%<"'
+        elseif &filetype == 'cpp'
+            exec '!g++ "%" -o "%<"'
+        elseif &filetype == 'markdown'
+            exec 'MarkdownPreview'
+        endif
+    ]]
 end
