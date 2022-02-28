@@ -78,7 +78,7 @@ end)
 vim.api.nvim_command 'PackerInstall'
 
 -- Plugins
-require 'NvimTree'
+require 'plugin-nvim-tree'
 keymap('n', '<LEADER>e', ':NvimTreeToggle<CR>', {noremap = true})
 
 require'plugin-cmp'
