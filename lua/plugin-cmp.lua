@@ -85,14 +85,14 @@ cmp.setup.cmdline('/', {
 -- Visual --
 ------------
 -- gray
-vim.cmd('highlight!CmpItemAbbrDeprecated guibg=NONE gui=strikethrough guifg=#808080')
+vim.cmd("highlight!CmpItemAbbrDeprecated guibg=NONE gui=strikethrough guifg=#808080")
 -- blue
 vim.cmd('highlight!CmpItemAbbrMatch guibg=NONE guifg=#569CD6')
 vim.cmd('highlight!CmpItemAbbrMatchFuzzy guibg=NONE guifg=#569CD6')
 -- light blue
 vim.cmd('highlight!CmpItemKindVariable guibg=NONE guifg=#9CDCFE')
 vim.cmd('highlight!CmpItemKindInterface guibg=NONE guifg=#9CDCFE')
-vim.cmd('highlight!CmpItemKindText guibg=NONE guifg=#9CDCFE')
+vim.cmd("highlight!CmpItemKindText guibg=NONE guifg=#9CDCFE")
 -- pink
 vim.cmd('highlight!CmpItemKindFunction guibg=NONE guifg=#C586C0')
 vim.cmd('highlight!CmpItemKindMethod guibg=NONE guifg=#C586C0')

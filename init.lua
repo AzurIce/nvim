@@ -78,10 +78,23 @@ end)
 vim.api.nvim_command 'PackerInstall'
 
 -- Plugins
+
+-- Colorscheme --
+opt.termguicolors = true
+vim.api.nvim_command 'colorscheme palenight'
+vim.g.winblend=10
+if not fn.has('win32') then
+    vim.cmd('hi Normal guibg=None ctermbg=None')
+    -- vim.cmd('hi StatusLine guibg=None ctermbg=None')
+    vim.cmd('hi CursorLine guibg=None ctermbg=None')
+end
+
 require 'plugin-nvim-tree'
 keymap('n', '<LEADER>e', ':NvimTreeToggle<CR>', {noremap = true})
-require'plugin-cmp'
-require'plugin-lsp'
+
+require 'plugin-cmp'
+
+require 'plugin-lsp'
 
 -- Searching --
 opt.ignorecase = true
@@ -91,16 +104,6 @@ keymap('', '-', 'Nzz', {noremap = true})
 keymap('', '=', 'nzz', {noremap = true})
 keymap('', '<ESC>', ':nohlsearch<CR>', {noremap = true})
 
--- Colorscheme --
-opt.termguicolors = true
-vim.api.nvim_command 'colorscheme palenight'
-vim.g.winblend=10
-
-if not fn.has('win32') then
-    vim.cmd('hi Normal guibg=None ctermbg=None')
-    -- vim.cmd('hi StatusLine guibg=None ctermbg=None')
-    vim.cmd('hi CursorLine guibg=None ctermbg=None')
-end
 
 ---------------
 -- Keymaping --
@@ -109,6 +112,7 @@ keymap('', 's', '<nop>', {})
 keymap('', 'S', ':w<CR>', {})
 keymap('', 'Q', ':q<CR>', {})
 keymap('', 'R', '<silent>:source $MYVIMRC<CR>', {})
+-- keymap('', 'R', ':luafile init.lua<CR>', {})
 
 keymap('', 'J', '7j', {noremap = true})
 keymap('', 'K', '7k', {noremap = true})
