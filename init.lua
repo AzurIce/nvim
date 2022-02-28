@@ -174,4 +174,3 @@ function Compile()
         endif
     ]]
 end
-vim.cmd[[exec NvimTreeToggle]]
