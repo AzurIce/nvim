@@ -1,4 +1,4 @@
--- Coc.nvim
+-- plugin-coc.nvim
 vim.g.coc_global_extensions = {
     'coc-clangd',
     'coc-cmake',
