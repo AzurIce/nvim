@@ -53,9 +53,12 @@ require('packer').startup(function()
     use 'hrsh7th/cmp-path'
     use 'hrsh7th/cmp-cmdline'
 
-    -- Snippet Engine
+    -- Snippet
     use 'L3MON4D3/LuaSnip'
     use 'saadparwaiz1/cmp_luasnip'
+    use 'rafamadriz/friendly-snippets'
+
+    use 'windwp/nvim-autopairs'
 
     -- LSP
     use 'neovim/nvim-lspconfig'
@@ -66,6 +69,8 @@ require('packer').startup(function()
 
     use 'kyazdani42/nvim-web-devicons'
     use 'kyazdani42/nvim-tree.lua'
+
+    -- use 'mfussenegger/nvim-jdtls'
 
     -- use {
     --     'goolord/alpha-nvim',
@@ -97,7 +102,7 @@ require 'plugin-nvim-tree'
 keymap('n', '<LEADER>e', ':NvimTreeToggle<CR>', {noremap = true})
 
 require 'plugin-cmp'
-
+require 'plugin-autopairs'
 require 'plugin-lsp'
 
 -- Searching --
@@ -115,7 +120,7 @@ keymap('', '<ESC>', ':nohlsearch<CR>', {noremap = true})
 keymap('', 's', '<nop>', {})
 keymap('', 'S', ':w<CR>', {})
 keymap('', 'Q', ':q<CR>', {})
-keymap('', 'R', '<silent>:source $MYVIMRC<CR>', {})
+keymap('', 'R', ':source $MYVIMRC<CR>', {})
 -- keymap('', 'R', ':luafile init.lua<CR>', {})
 
 keymap('', 'J', '7j', {noremap = true})
@@ -125,8 +130,8 @@ keymap('', 'H', '0', {noremap = true})
 keymap('', 'L', '<nop>', {})
 keymap('', 'L', '$', {noremap = true})
 
-keymap('v', '<Tab>', '>gv', {noremap = true})
-keymap('v', '<S-Tab>', '<gv', {noremap = true})
+-- keymap('v', '<Tab>', '>gv', {noremap = true})
+-- keymap('v', '<S-Tab>', '<gv', {noremap = true})
 
 keymap('n', '<C-a>', 'gg<S-v>G', {noremap = true})
 keymap('n', '<C-c>', '"+y', {noremap = true})
@@ -137,9 +142,12 @@ keymap('n', '<C-s>j', ':split<CR><C-j>', {})
 keymap('n', '<C-s>k', ':split<CR>', {})
 keymap('n', '<C-s>l', ':vsplit<CR><C-l>', {})
 keymap('n', '<C-h>', '<C-w>h', {noremap = true})
-keymap('n', '<C-j>', 'v:lua.require\'cmp\'.visible() ? v:lua.require\'cmp\'.scroll_docs(4)  : "<C-w>j"', {noremap = true, expr = true})
-keymap('n', '<C-k>', 'v:lua.require\'cmp\'.visible() ? v:lua.require\'cmp\'.scroll_docs(-4) : "<C-w>k"', {noremap = true, expr = true})
+keymap('n', '<C-j>', '<C-w>j', {noremap = true})
+keymap('n', '<C-k>', '<C-w>k', {noremap = true})
 keymap('n', '<C-l>', '<C-w>l', {noremap = true})
+
+-- keymap('i', '<C-j>', 'v:lua.require\'cmp\'.scroll_docs(-4)', {noremap = true})
+-- keymap('i', '<C-k>', 'v:lua.require\'cmp\'.scroll_docs(4)', {noremap = true})
 
 keymap('n', '<C-A-j>', ':resize -2<CR>', {noremap = true})
 keymap('n', '<C-A-k>', ':resize +2<CR>', {noremap = true})
