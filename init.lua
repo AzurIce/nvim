@@ -1,3 +1,9 @@
+for k, _ in pairs(package.loaded) do
+    if string.match(k, "^azurice") then
+        package.loaded[k] = nil
+    end
+end
+
 local keymap = vim.api.nvim_set_keymap
 local fn = vim.fn
 local opt = vim.opt
@@ -46,6 +52,15 @@ local use = require('packer').use
 require('packer').startup(function()
     use 'wbthomason/packer.nvim'
 
+    use 'drewtempelmeyer/palenight.vim'
+
+    use {
+        'lewis6991/gitsigns.nvim',
+        requires = {
+            'nvim-lua/plenary.nvim'
+        }
+    }
+
     -- 自动补全
     use 'hrsh7th/nvim-cmp'
 
@@ -65,19 +80,8 @@ require('packer').startup(function()
     use 'williamboman/nvim-lsp-installer'
     use 'hrsh7th/cmp-nvim-lsp'
 
-    use 'drewtempelmeyer/palenight.vim'
-
     use 'kyazdani42/nvim-web-devicons'
     use 'kyazdani42/nvim-tree.lua'
-
-    -- use 'mfussenegger/nvim-jdtls'
-
-    -- use {
-    --     'goolord/alpha-nvim',
-    --     config = function ()
-    --         require'alpha'.setup(require'alpha.themes.startify'.config)
-    --     end
-    -- }
 
     if packer_bootstrap then
         require('packer').sync()
@@ -98,12 +102,14 @@ if not fn.has('win32') then
     vim.cmd('hi CursorLine guibg=None ctermbg=None')
 end
 
-require 'plugin-nvim-tree'
+require'gitsigns'.setup()
+
+require 'azurice.plugin-nvim-tree'
 keymap('n', '<LEADER>e', ':NvimTreeToggle<CR>', {noremap = true})
 
-require 'plugin-cmp'
-require 'plugin-autopairs'
-require 'plugin-lsp'
+require 'azurice.plugin-cmp'
+require 'azurice.plugin-autopairs'
+require 'azurice.plugin-lsp'
 
 -- Searching --
 opt.ignorecase = true
