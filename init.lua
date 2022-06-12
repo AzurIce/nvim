@@ -10,6 +10,11 @@ local opt = vim.opt
 
 vim.g.mapleader = ' '
 
+opt.undofile = true
+
+----------------
+-- Appearance --
+----------------
 opt.list = true
 opt.listchars = { tab = '>-', trail = '▫' }
 
@@ -19,7 +24,7 @@ opt.cursorline = true
 opt.showcmd = true
 opt.wildmenu = true
 
-opt.encoding = "utf-8"
+opt.fileencoding = "utf-8"
 
 ---------------------------
 -- Indenting and Tabbing --
@@ -30,6 +35,7 @@ opt.shiftwidth = 4 -- One '\t' is equal to four ' '
 
 opt.autoindent = true
 opt.smartindent = true
+opt.cindent = true
 
 opt.autoread = true -- Read file when changed outside of Vim
 
@@ -140,7 +146,7 @@ keymap('', 'L', '$', {noremap = true})
 -- keymap('v', '<S-Tab>', '<gv', {noremap = true})
 
 keymap('n', '<C-a>', 'gg<S-v>G', {noremap = true})
-keymap('n', '<C-c>', '"+y', {noremap = true})
+keymap('v', '<C-c>', '"+y', {noremap = true})
 
 -- Windowing
 keymap('n', '<C-s>h', ':vsplit<CR>', {})
@@ -160,8 +166,8 @@ keymap('n', '<C-A-k>', ':resize +2<CR>', {noremap = true})
 keymap('n', '<C-A-h>', ':vertical resize -2<CR>', {noremap = true})
 keymap('n', '<C-A-l>', ':vertical resize +2<CR>', {noremap = true})
 -- Tabpaging
-keymap('n', '<Tab>', 'v:count!=0? ":<C-u>" . v:count . "tabn<CR>" : ":tabn<CR>"', {noremap = true, expr = true})
-keymap('n', '<S-Tab>', ':-tabn<CR>', {noremap = true})
+keymap('n', '<C-Tab>', 'v:count!=0? ":<C-u>" . v:count . "tabn<CR>" : ":tabn<CR>"', {noremap = true, expr = true})
+keymap('n', '<C-S-Tab>', ':-tabn<CR>', {noremap = true})
 keymap('n', '<C-n>', ':tabe<CR>', {noremap = true})
 
 -- Jumping
