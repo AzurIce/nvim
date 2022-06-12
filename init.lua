@@ -54,10 +54,11 @@ end
 ------------------------
 -- Manage the plugins --
 ------------------------
-local use = require('packer').use
-require('packer').startup(function()
+-- local use = require('packer').use
+require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
 
+    -- Colorscheme
     use 'drewtempelmeyer/palenight.vim'
 
     use {
