@@ -11,6 +11,7 @@ local opt = vim.opt
 vim.g.mapleader = ' '
 
 opt.undofile = true
+opt.autochdir = true
 
 ----------------
 -- Appearance --
