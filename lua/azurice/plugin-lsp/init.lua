@@ -1,25 +1,9 @@
 -----------------
 -- LSP Install --
 -----------------
-local lsp_installer = require("nvim-lsp-installer")
-
-local settings = {
-    ["sumneko_lua"] = require("azurice.plugin-lsp.settings.lua"),
-    ["jdtls"] = {},
-    ["clangd"] = {},
-    ["pylsp"] = {}
+require("nvim-lsp-installer").setup {
+    automatic_installation = true
 }
-
-for name, _ in pairs(settings) do
-    local server_is_found, server = lsp_installer.get_server(name)
-    if server_is_found and not server:is_installed() then
-        print("Installing " .. name)
-        server:install()
-    end
-end
-
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 local function lsp_highlight_document(client)
     -- Set autocommands conditional on server_capabilities
@@ -61,23 +45,30 @@ local function lsp_keymaps(bufnr)
 end
 
 local function on_attach(client, bufnr)
-    -- if client.name == "tsserver" then
-    --     client.resolved_capabilities.document_formatting = false
-    -- end
+    if client.name == "tsserver" then
+        client.resolved_capabilities.document_formatting = false
+    end
     lsp_keymaps(bufnr)
     lsp_highlight_document(client)
 end
 
-lsp_installer.on_server_ready(function(server)
-    local opts = {
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
+local lspconfig = require("lspconfig")
+
+local lspSettings = {
+    ["clangd"] = {},
+    ["jdtls"] = {},
+    ["pyright"] = {},
+    ["rust_analyzer"] = {},
+    ["sumneko_lua"] = require("azurice.plugin-lsp.settings.lua")
+}
+
+for key, value in pairs(lspSettings) do
+    lspconfig[key].setup {
         on_attach = on_attach,
-        capabilities = capabilities
+        capabilities = capabilities,
+        settings = value
     }
-
-    if server.name == 'sumneko_lua' then
-        opts = vim.tbl_deep_extend('force', settings[server.name], opts)
-    end
-
-    server:setup(opts)
-end)
-
+end
