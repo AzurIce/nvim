@@ -195,9 +195,17 @@ function Compile()
     vim.cmd[[
         exec 'w'
         if &filetype == 'c'
-            exec '!gcc "%" -o "%<"'
+            if has('win32')
+                exec '!clang -target x86_64-pc-windows-gnu "%" -o "%<"'
+            else
+                exec '!gcc "%" -o "%<"'
+            endif
         elseif &filetype == 'cpp'
-            exec '!g++ "%" -o "%<"'
+            if has('win32')
+                exec '!clang++ -target x86_64-pc-windows-gnu "%" -o "%<"'
+            else
+                exec '!g++ "%" -o "%<"'
+            endif
         elseif &filetype == 'markdown'
             exec 'MarkdownPreview'
         endif
