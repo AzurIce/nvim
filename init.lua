@@ -40,93 +40,6 @@ opt.cindent = true
 
 opt.autoread = true -- Read file when changed outside of Vim
 
-if fn.has('win32') then
-    opt.runtimepath : prepend(fn.stdpath('data') .. 'site/pack/packer/start/packer.vim')
-end
-
--------------------------
--- Install packer.nvim --
--------------------------
-local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-print(install_path)
-if fn.empty(fn.glob(install_path)) > 0 then
-    packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
-end
-
-------------------------
--- Manage the plugins --
-------------------------
--- local use = require('packer').use
-require('packer').startup(function(use)
-    use 'wbthomason/packer.nvim'
-
-    -- Colorscheme
-    use 'drewtempelmeyer/palenight.vim'
-
-    use {
-        'lewis6991/gitsigns.nvim',
-        requires = {
-            'nvim-lua/plenary.nvim'
-        }
-    }
-
-    -- 自动补全
-    use 'hrsh7th/nvim-cmp'
-
-    use 'hrsh7th/cmp-buffer'
-    use 'hrsh7th/cmp-path'
-    use 'hrsh7th/cmp-cmdline'
-
-    -- Snippet
-    use 'L3MON4D3/LuaSnip'
-    use 'saadparwaiz1/cmp_luasnip'
-    use 'rafamadriz/friendly-snippets'
-
-    use 'windwp/nvim-autopairs'
-
-    -- LSP
-    use 'neovim/nvim-lspconfig'
-    use 'williamboman/nvim-lsp-installer'
-    use 'hrsh7th/cmp-nvim-lsp'
-
-    use {
-        'kyazdani42/nvim-tree.lua',
-        requires = {
-            'kyazdani42/nvim-web-devicons'
-        }
-    }
-
-    use 'norcalli/nvim-colorizer.lua'
-
-    if packer_bootstrap then
-        require('packer').sync()
-    end
-end)
-
-vim.api.nvim_command 'PackerInstall'
-
--- Plugins
-
--- Colorscheme --
-opt.termguicolors = true
-vim.api.nvim_command 'colorscheme palenight'
-vim.g.winblend=10
-if not fn.has('win32') then
-    vim.cmd('hi Normal guibg=None ctermbg=None')
-    -- vim.cmd('hi StatusLine guibg=None ctermbg=None')
-    vim.cmd('hi CursorLine guibg=None ctermbg=None')
-end
-
-require'gitsigns'.setup()
-require'colorizer'.setup()
-
-require 'azurice.plugin-nvim-tree'
-keymap('n', '<LEADER>e', ':NvimTreeToggle<CR>', {noremap = true})
-
-require 'azurice.plugin-cmp'
-require 'azurice.plugin-autopairs'
-require 'azurice.plugin-lsp'
-
 -- Searching --
 opt.ignorecase = true
 opt.incsearch = true
@@ -212,3 +125,92 @@ function Compile()
         endif
     ]]
 end
+
+if fn.has('win32') then
+    opt.runtimepath : prepend(fn.stdpath('data') .. 'site/pack/packer/start/packer.vim')
+end
+
+-------------------------
+-- Install packer.nvim --
+-------------------------
+local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+print(install_path)
+if fn.empty(fn.glob(install_path)) > 0 then
+    packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+end
+
+------------------------
+-- Manage the plugins --
+------------------------
+-- local use = require('packer').use
+require('packer').startup(function(use)
+    use 'wbthomason/packer.nvim'
+
+    -- Colorscheme
+    use 'drewtempelmeyer/palenight.vim'
+
+    use {
+        'lewis6991/gitsigns.nvim',
+        requires = {
+            'nvim-lua/plenary.nvim'
+        }
+    }
+
+    -- 自动补全
+    use 'hrsh7th/nvim-cmp'
+
+    use 'hrsh7th/cmp-buffer'
+    use 'hrsh7th/cmp-path'
+    use 'hrsh7th/cmp-cmdline'
+
+    -- Snippet
+    use 'L3MON4D3/LuaSnip'
+    use 'saadparwaiz1/cmp_luasnip'
+    use 'rafamadriz/friendly-snippets'
+
+    use 'windwp/nvim-autopairs'
+
+    -- LSP
+    use { 'dundalek/lazy-lsp.nvim', requires = { 'neovim/nvim-lspconfig' } }
+    -- use 'neovim/nvim-lspconfig'
+    -- use 'williamboman/nvim-lsp-installer'
+    use 'hrsh7th/cmp-nvim-lsp'
+
+    use {
+        'kyazdani42/nvim-tree.lua',
+        requires = {
+            'kyazdani42/nvim-web-devicons'
+        }
+    }
+
+    use 'norcalli/nvim-colorizer.lua'
+
+    if packer_bootstrap then
+        require('packer').sync()
+    end
+end)
+
+vim.api.nvim_command 'PackerInstall'
+
+-- Plugins
+
+-- Colorscheme --
+opt.termguicolors = true
+vim.api.nvim_command 'colorscheme palenight'
+vim.g.winblend=10
+if not fn.has('win32') then
+    vim.cmd('hi Normal guibg=None ctermbg=None')
+    -- vim.cmd('hi StatusLine guibg=None ctermbg=None')
+    vim.cmd('hi CursorLine guibg=None ctermbg=None')
+end
+
+require'gitsigns'.setup()
+require'colorizer'.setup()
+
+require 'azurice.plugin-nvim-tree'
+keymap('n', '<LEADER>e', ':NvimTreeToggle<CR>', {noremap = true})
+
+require 'azurice.plugin-cmp'
+require 'azurice.plugin-autopairs'
+require 'azurice.plugin-lsp'
+

@@ -1,9 +1,9 @@
 -----------------
 -- LSP Install --
 -----------------
-require("nvim-lsp-installer").setup {
-    automatic_installation = true
-}
+-- require("nvim-lsp-installer").setup {
+--     automatic_installation = true
+-- }
 
 local function lsp_highlight_document(client)
     -- Set autocommands conditional on server_capabilities
@@ -53,22 +53,46 @@ local function on_attach(client, bufnr)
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
-local lspconfig = require("lspconfig")
-
-local lspSettings = {
-    ["clangd"] = {},
-    ["jdtls"] = {},
-    ["pyright"] = {},
-    ["rust_analyzer"] = {},
-    ["sumneko_lua"] = require("azurice.plugin-lsp.settings.lua")
+require('lazy-lsp').setup {
+  -- By default all available servers are set up. Exclude unwanted or misbehaving servers.
+  -- excluded_servers = {
+  --   "ccls", "zk",
+  -- },
+  -- Default config passed to all servers to specify on_attach callback and other options.
+  default_config = {
+    -- flags = {
+    --   debounce_text_changes = 150,
+    -- },
+    on_attach = on_attach,
+    capabilities = capabilities,
+  },
+  -- Override config for specific servers that will passed down to lspconfig setup.
+  configs = {
+    -- sumneko_lua = {
+    --   cmd = {"lua-language-server"},
+    --   -- on_attach = on_lua_attach,
+    --   -- capabilities = capabilities,
+    -- },
+    sumneko_lua = require("azurice.plugin-lsp.settings.lua")
+  },
 }
 
-for key, value in pairs(lspSettings) do
-    lspconfig[key].setup {
-        on_attach = on_attach,
-        capabilities = capabilities,
-        settings = value
-    }
-end
+-- local lspconfig = require("lspconfig")
+-- 
+-- local lspSettings = {
+--     ["clangd"] = {},
+--     ["jdtls"] = {},
+--     ["pyright"] = {},
+--     ["rust_analyzer"] = {},
+--     ["sumneko_lua"] = require("azurice.plugin-lsp.settings.lua")
+-- }
+-- 
+-- for key, value in pairs(lspSettings) do
+--     lspconfig[key].setup {
+--         on_attach = on_attach,
+--         capabilities = capabilities,
+--         settings = value
+--     }
+-- end
