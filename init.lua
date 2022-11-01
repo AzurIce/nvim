@@ -171,10 +171,14 @@ require('packer').startup(function(use)
     use 'windwp/nvim-autopairs'
 
     -- LSP
-    use { 'dundalek/lazy-lsp.nvim', requires = { 'neovim/nvim-lspconfig' } }
-    -- use 'neovim/nvim-lspconfig'
-    -- use 'williamboman/nvim-lsp-installer'
+    use 'neovim/nvim-lspconfig'
     use 'hrsh7th/cmp-nvim-lsp'
+    if not fn.has('win32') then
+        use 'dundalek/lazy-lsp.nvim'
+    else
+        use 'williamboman/mason.nvim'
+        use 'williamboman/mason-lspconfig.nvim'
+    end
 
     use {
         'kyazdani42/nvim-tree.lua',

@@ -55,29 +55,46 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
-require('lazy-lsp').setup {
-  -- By default all available servers are set up. Exclude unwanted or misbehaving servers.
-  -- excluded_servers = {
-  --   "ccls", "zk",
-  -- },
-  -- Default config passed to all servers to specify on_attach callback and other options.
-  default_config = {
-    -- flags = {
-    --   debounce_text_changes = 150,
-    -- },
-    on_attach = on_attach,
-    capabilities = capabilities,
-  },
-  -- Override config for specific servers that will passed down to lspconfig setup.
-  configs = {
-    -- sumneko_lua = {
-    --   cmd = {"lua-language-server"},
-    --   -- on_attach = on_lua_attach,
-    --   -- capabilities = capabilities,
-    -- },
-    sumneko_lua = require("azurice.plugin-lsp.settings.lua")
-  },
-}
+
+local fn = vim.fn
+
+if not fn.has('win32') then
+    require('lazy-lsp').setup {
+      default_config = {
+        on_attach = on_attach,
+        capabilities = capabilities,
+      },
+      configs = {
+        sumneko_lua = require("azurice.plugin-lsp.settings.lua")
+      },
+    }
+else
+    local DEFAULT_SETTINGS = {
+        ensure_installed = {},
+        automatic_installation = true,
+    }
+    require("mason").setup()
+    require("mason-lspconfig").setup()
+    require("mason-lspconfig").setup_handlers {
+        -- The first entry (without a key) will be the default handler
+        -- and will be called for each installed server that doesn't have
+        -- a dedicated handler.
+        function (server_name) -- default handler (optional)
+            require("lspconfig")[server_name].setup {}
+        end,
+        -- Next, you can provide a dedicated handler for specific servers.
+        -- For example, a handler override for the `rust_analyzer`:
+        ["sumneko_lua"] = function ()
+            require("lspconfig")['sumneko_lua'].setup {
+                on_attach = on_attach,
+                capabilities = capabilities,
+                settings = {
+                    ['sumneko_lua'] = require("azurice.plugin-lsp.settings.lua")
+                }
+            }
+        end
+    }
+end
 
 -- local lspconfig = require("lspconfig")
 -- 
