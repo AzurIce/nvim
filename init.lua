@@ -136,11 +136,18 @@ end
 -------------------------
 -- Install packer.nvim --
 -------------------------
-local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-print(install_path)
-if fn.empty(fn.glob(install_path)) > 0 then
-    packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+local ensure_packer = function()
+    local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+    -- print(install_path)
+    if fn.empty(fn.glob(install_path)) > 0 then
+        packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+        vim.cmd [[packadd packer.nvim]]
+        return true
+    end
+    return false
 end
+
+local packer_bootstrap = ensure_packer()
 
 ------------------------
 -- Manage the plugins --
@@ -150,7 +157,9 @@ require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
 
     -- Colorscheme
-    use 'drewtempelmeyer/palenight.vim'
+    -- use 'mhartington/oceanic-next'
+    -- use 'drewtempelmeyer/palenight.vim'
+    use 'sainnhe/edge'
 
     use {
         'lewis6991/gitsigns.nvim',
@@ -175,6 +184,14 @@ require('packer').startup(function(use)
 
     use 'windwp/nvim-autopairs'
 
+    -- TreeSitter
+    use {
+        'nvim-treesitter/nvim-treesitter',
+        run = function()
+            local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+            ts_update()
+        end
+    }
     -- LSP
     use 'neovim/nvim-lspconfig'
     use 'hrsh7th/cmp-nvim-lsp'
@@ -205,7 +222,24 @@ vim.api.nvim_command 'PackerInstall'
 
 -- Colorscheme --
 opt.termguicolors = true
-vim.api.nvim_command 'colorscheme palenight'
+
+-- Use light theme during 7 ~ 17
+local current_hour = tonumber(os.date("%H"))
+if current_hour >= 7 and current_hour <= 17 then
+    opt.background = 'light'
+else
+    opt.background = 'dark'
+end
+
+vim.g.edge_style = 'neon'
+vim.g.edge_better_performance = 1
+-- vim.g.edge_transparent_background = 1
+vim.g.edge_dim_inactive_windows = 1
+vim.g.edge_diagnostic_text_highlight = 1
+vim.g.edge_diagnostic_line_highlight = 1
+vim.g.edge_diagnostic_virtual_text = 'colored'
+vim.api.nvim_command 'colorscheme edge'
+
 vim.g.winblend=10
 if not fn.has('win32') then
     vim.cmd('hi Normal guibg=None ctermbg=None')
@@ -222,4 +256,4 @@ keymap('n', '<LEADER>e', ':NvimTreeToggle<CR>', {noremap = true})
 require 'azurice.plugin-cmp'
 require 'azurice.plugin-autopairs'
 require 'azurice.plugin-lsp'
-
+require 'azurice.plugin-nvim-treesitter'
