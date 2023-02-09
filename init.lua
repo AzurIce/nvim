@@ -52,6 +52,7 @@ keymap('', '<ESC>', ':nohlsearch<CR>', {noremap = true})
 ---------------
 -- Keymaping --
 ---------------
+keymap('c', 'w!!', ':SudaWrite', {})
 keymap('', 's', '<nop>', {})
 keymap('', 'S', ':w<CR>', {})
 keymap('', 'Q', ':q<CR>', {})
@@ -72,10 +73,10 @@ keymap('n', '<C-a>', 'gg<S-v>G', {noremap = true})
 keymap('v', '<C-c>', '"+y', {noremap = true})
 
 -- Windowing
-keymap('n', '<C-s>h', ':vsplit<CR>', {})
-keymap('n', '<C-s>j', ':split<CR><C-j>', {})
-keymap('n', '<C-s>k', ':split<CR>', {})
-keymap('n', '<C-s>l', ':vsplit<CR><C-l>', {})
+keymap('n', '<C-s>h', ':vsplit<CR>', {})         -- Ctrl + Shift + h: split left
+keymap('n', '<C-s>j', ':split<CR><C-j>', {})     -- Ctrl + Shift + j: split down
+keymap('n', '<C-s>k', ':split<CR>', {})          -- Ctrl + shift + k: split up
+keymap('n', '<C-s>l', ':vsplit<CR><C-l>', {})    -- Ctrl + shift + k: split right
 keymap('n', '<C-h>', '<C-w>h', {noremap = true})
 keymap('n', '<C-j>', '<C-w>j', {noremap = true})
 keymap('n', '<C-k>', '<C-w>k', {noremap = true})
@@ -89,7 +90,9 @@ keymap('n', '<C-A-k>', ':resize +2<CR>', {noremap = true})
 keymap('n', '<C-A-h>', ':vertical resize -2<CR>', {noremap = true})
 keymap('n', '<C-A-l>', ':vertical resize +2<CR>', {noremap = true})
 -- Tabpaging
+keymap('n', '<C-Tab>', '<nop>', {})
 keymap('n', '<C-Tab>', 'v:count!=0? ":<C-u>" . v:count . "tabn<CR>" : ":tabn<CR>"', {noremap = true, expr = true})
+keymap('n', '<C-S-Tab>', '<nop>', {})
 keymap('n', '<C-S-Tab>', ':-tabn<CR>', {noremap = true})
 keymap('n', '<C-n>', ':tabe<CR>', {noremap = true})
 
@@ -155,6 +158,8 @@ require('packer').startup(function(use)
             'nvim-lua/plenary.nvim'
         }
     }
+
+    use 'lambdalisue/suda.vim'
 
     -- 自动补全
     use 'hrsh7th/nvim-cmp'
