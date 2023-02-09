@@ -1,5 +1,4 @@
-for k, _ in pairs(package.loaded) do
-    if string.match(k, "^azurice") then
+for k, _ in pairs(package.loaded) do    if string.match(k, "^azurice") then
         package.loaded[k] = nil
     end
 end
@@ -89,11 +88,16 @@ keymap('n', '<C-A-j>', ':resize -2<CR>', {noremap = true})
 keymap('n', '<C-A-k>', ':resize +2<CR>', {noremap = true})
 keymap('n', '<C-A-h>', ':vertical resize -2<CR>', {noremap = true})
 keymap('n', '<C-A-l>', ':vertical resize +2<CR>', {noremap = true})
--- Tabpaging
-keymap('n', '<C-Tab>', '<nop>', {})
-keymap('n', '<C-Tab>', 'v:count!=0? ":<C-u>" . v:count . "tabn<CR>" : ":tabn<CR>"', {noremap = true, expr = true})
-keymap('n', '<C-S-Tab>', '<nop>', {})
-keymap('n', '<C-S-Tab>', ':-tabn<CR>', {noremap = true})
+-- Buffer and Tab
+-- keymap('n', '<C-Tab>', '<nop>', {})
+-- keymap('n', '<C-Tab>', 'v:count!=0? ":<C-u>" . v:count . "tabn<CR>" : ":tabn<CR>"', {noremap = true, expr = true})
+keymap('n', '<C-,>', ':bprevious<CR>', {})
+keymap('n', '<C-.>', ':bnext<CR>', {})
+keymap('n', '<C-/>', ':bdelete<CR>', {})
+
+keymap('n', '<C-[>', ':tabp<CR>', {})
+keymap('n', '<C-]>', ':tabn<CR>', {})
+keymap('n', '<C-\\>', ':tabclose<CR>', {})
 keymap('n', '<C-n>', ':tabe<CR>', {noremap = true})
 
 -- Jumping
@@ -169,13 +173,13 @@ require('packer').startup(function(use)
         requires = { 'kyazdani42/nvim-web-devicons' }
     }
     use 'norcalli/nvim-colorizer.lua'
-
     use {
         'lewis6991/gitsigns.nvim',
         requires = {
             'nvim-lua/plenary.nvim'
         }
     }
+    use {'akinsho/bufferline.nvim', tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons'}
 
     -- 自动补全
     use 'hrsh7th/nvim-cmp'
@@ -319,6 +323,7 @@ require'gitsigns'.setup()
 require'colorizer'.setup()
 require 'azurice.plugin-nvim-treesitter'
 require 'azurice.plugin-nvim-lualine'
+require 'azurice.plugin-bufferline'
 
 require 'azurice.plugin-nvim-tree'
 keymap('n', '<LEADER>e', ':NvimTreeToggle<CR>', {noremap = true})
