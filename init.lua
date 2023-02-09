@@ -156,11 +156,19 @@ local packer_bootstrap = ensure_packer()
 require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
 
-    -- Colorscheme
-    -- use 'mhartington/oceanic-next'
+    -- Visual
     -- use 'drewtempelmeyer/palenight.vim'
     -- use 'sainnhe/edge'
-    use 'marko-cerovac/material.nvim'
+    use 'marko-cerovac/material.nvim' -- Colorscheme
+    use {
+        'nvim-lualine/lualine.nvim',
+        requires = { 'kyazdani42/nvim-web-devicons' }
+    }
+    use {
+        'kyazdani42/nvim-tree.lua',
+        requires = { 'kyazdani42/nvim-web-devicons' }
+    }
+    use 'norcalli/nvim-colorizer.lua'
 
     use {
         'lewis6991/gitsigns.nvim',
@@ -168,8 +176,6 @@ require('packer').startup(function(use)
             'nvim-lua/plenary.nvim'
         }
     }
-
-    use 'lambdalisue/suda.vim'
 
     -- 自动补全
     use 'hrsh7th/nvim-cmp'
@@ -203,14 +209,8 @@ require('packer').startup(function(use)
         use 'williamboman/mason-lspconfig.nvim'
     end
 
-    use {
-        'kyazdani42/nvim-tree.lua',
-        requires = {
-            'kyazdani42/nvim-web-devicons'
-        }
-    }
-
-    use 'norcalli/nvim-colorizer.lua'
+    -- Others
+    use 'lambdalisue/suda.vim'
 
     if packer_bootstrap then
         require('packer').sync()
@@ -317,6 +317,8 @@ end
 
 require'gitsigns'.setup()
 require'colorizer'.setup()
+require 'azurice.plugin-nvim-treesitter'
+require 'azurice.plugin-nvim-lualine'
 
 require 'azurice.plugin-nvim-tree'
 keymap('n', '<LEADER>e', ':NvimTreeToggle<CR>', {noremap = true})
@@ -324,4 +326,3 @@ keymap('n', '<LEADER>e', ':NvimTreeToggle<CR>', {noremap = true})
 require 'azurice.plugin-cmp'
 require 'azurice.plugin-autopairs'
 require 'azurice.plugin-lsp'
-require 'azurice.plugin-nvim-treesitter'
