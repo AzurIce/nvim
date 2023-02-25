@@ -1,12 +1,7 @@
 -----------------
 -- LSP Install --
 -----------------
--- require("nvim-lsp-installer").setup {
---     automatic_installation = true
--- }
-
 local function lsp_highlight_document(client)
-    -- Set autocommands conditional on server_capabilities
     if client.resolved_capabilities.document_highlight then
         vim.api.nvim_exec([[
               augroup lsp_document_highlight
@@ -69,47 +64,55 @@ if not fn.has('win32') then
       },
     }
 else
-    local DEFAULT_SETTINGS = {
-        ensure_installed = {},
-        automatic_installation = true,
-    }
     require("mason").setup()
-    require("mason-lspconfig").setup()
-    require("mason-lspconfig").setup_handlers {
-        -- The first entry (without a key) will be the default handler
-        -- and will be called for each installed server that doesn't have
-        -- a dedicated handler.
-        function (server_name) -- default handler (optional)
-            require("lspconfig")[server_name].setup {}
-        end,
-        -- Next, you can provide a dedicated handler for specific servers.
-        -- For example, a handler override for the `rust_analyzer`:
-        ["sumneko_lua"] = function ()
-            require("lspconfig")['sumneko_lua'].setup {
-                on_attach = on_attach,
-                capabilities = capabilities,
-                settings = {
-                    ['sumneko_lua'] = require("azurice.plugin-lsp.settings.lua")
-                }
-            }
-        end
-    }
-end
+    require("mason-lspconfig").setup({
+        ensure_installed = { 'lua_ls' },
+    })
+    require'neodev'.setup()
+    require'lspconfig'.lua_ls.setup{}        -- Lua
+    require'lspconfig'.gopls.setup{}         -- Golang
+    require'lspconfig'.rust_analyzer.setup{} -- Rust
+    require'lspconfig'.cmake.setup{}         -- CMake
+    require'lspconfig'.clangd.setup{}        -- C/C++
 
--- local lspconfig = require("lspconfig")
--- 
--- local lspSettings = {
---     ["clangd"] = {},
---     ["jdtls"] = {},
---     ["pyright"] = {},
---     ["rust_analyzer"] = {},
---     ["sumneko_lua"] = require("azurice.plugin-lsp.settings.lua")
--- }
--- 
--- for key, value in pairs(lspSettings) do
---     lspconfig[key].setup {
---         on_attach = on_attach,
---         capabilities = capabilities,
---         settings = value
---     }
--- end
+    require'lspconfig'.cssls.setup{}         -- CSS
+    require'lspconfig'.cssmodules_ls.setup{  -- CSS modules
+        capabilities = capabilities
+    }
+
+    require'lspconfig'.denols.setup{}        -- Deno
+    require'lspconfig'.eslint.setup({        -- ESLint
+        on_attach = function(_, bufnr)
+            vim.api.nvim_create_autocmd("BufWritePre", {
+                buffer = bufnr,
+                command = "EslintFixAll",
+            })
+        end,
+    })
+
+    require'lspconfig'.glslls.setup{}        -- GLSL
+
+    require'lspconfig'.gradle_ls.setup{}     -- Gradle
+    require'lspconfig'.html.setup {          -- HTML
+        capabilities = capabilities,
+    }
+    require'lspconfig'.java_language_server.setup{}   -- Java
+    -- require'lspconfig'.jdtls.setup{}
+    require'lspconfig'.kotlin_language_server.setup{} -- Kotlin
+    require'lspconfig'.pyright.setup{}                -- Python
+    require'lspconfig'.yamlls.setup {                 -- YAML
+        settings = {
+            yaml = {
+                schemas = {
+                    ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
+                    ["../path/relative/to/file.yml"] = "/.github/workflows/*",
+                    ["/path/from/root/of/project"] = "/.github/workflows/*",
+                },
+            },
+        }
+    }
+
+    require'lspconfig'.texlab.setup{}               -- (La)Tex
+    -- require'lspconfig'.tsserver.setup{}          -- TypeScript
+
+end
