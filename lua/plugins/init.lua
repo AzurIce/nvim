@@ -1,6 +1,19 @@
 return {
     'folke/lazy.nvim',
 
+    -- Visual
+    {
+        'norcalli/nvim-colorizer.lua',
+        config = true,
+    },
+    {
+        'lewis6991/gitsigns.nvim',
+        config = true,
+        dependencies = {
+            'nvim-lua/plenary.nvim'
+        }
+    },
+
     -- Others
     'lambdalisue/suda.vim',
     'tpope/vim-surround',
