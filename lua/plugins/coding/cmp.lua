@@ -1,6 +1,14 @@
 return {
     {
         'hrsh7th/nvim-cmp',
+        event = { 'InsertEnter', 'CmdlineEnter' },
+        dependencies = {
+            'cmp-nvim-lsp',
+            'cmp_luasnip',
+            'cmp-buffer',
+            'cmp-path',
+            'cmp-cmdline'
+        },
         config = function ()
             local has_words_before = function()
                 local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -140,7 +148,9 @@ return {
         end
     },
 
-    'hrsh7th/cmp-buffer',
-    'hrsh7th/cmp-path',
-    'hrsh7th/cmp-cmdline',
+    { "hrsh7th/cmp-nvim-lsp", lazy = true },
+    { "saadparwaiz1/cmp_luasnip", lazy = true },
+    { "hrsh7th/cmp-buffer", lazy = true },
+    { "hrsh7th/cmp-path", lazy = true },
+    { "hrsh7th/cmp-cmdline", lazy = true },
 }

@@ -1,8 +1,3 @@
-for k, _ in pairs(package.loaded) do    if string.match(k, "^azurice") then
-        package.loaded[k] = nil
-    end
-end
-
 local keymap = vim.api.nvim_set_keymap
 local fn = vim.fn
 local opt = vim.opt
@@ -65,10 +60,4 @@ if not vim.loop.fs_stat(lazypath) then
 end
 opt.runtimepath : prepend(lazypath)
 
-------------------------
--- Manage the plugins --
-------------------------
 require('lazy').setup('plugins')
-
--- Plugins
-require'azurice.plugin-lsp'

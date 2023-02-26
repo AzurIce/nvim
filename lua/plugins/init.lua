@@ -1,5 +1,5 @@
 return {
-    'folke/neodev.nvim',
+    'folke/lazy.nvim',
 
     -- Visual
     {
@@ -13,19 +13,6 @@ return {
             'nvim-lua/plenary.nvim'
         }
     },
-
-    -- Snippet
-    'L3MON4D3/LuaSnip',
-    'saadparwaiz1/cmp_luasnip',
-    'rafamadriz/friendly-snippets',
-
-    -- LSP
-    'neovim/nvim-lspconfig',
-    'hrsh7th/cmp-nvim-lsp',
-
-    -- 'dundalek/lazy-lsp.nvim'
-    'williamboman/mason.nvim',
-    'williamboman/mason-lspconfig.nvim',
 
     -- Others
     'lambdalisue/suda.vim',
