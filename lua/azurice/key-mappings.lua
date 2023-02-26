@@ -1,6 +1,4 @@
 local keymap = vim.api.nvim_set_keymap
-local fn = vim.fn
-local opt = vim.opt
 
 ---------------
 -- Keymaping --
@@ -45,10 +43,14 @@ keymap('n', '<C-A-l>', ':vertical resize +2<CR>', {noremap = true})
 -- Buffer and Tab
 -- keymap('n', '<C-Tab>', '<nop>', {})
 -- keymap('n', '<C-Tab>', 'v:count!=0? ":<C-u>" . v:count . "tabn<CR>" : ":tabn<CR>"', {noremap = true, expr = true})
-keymap('n', '<C-,>', ':bprevious<CR>', {})
-keymap('n', '<C-.>', ':bnext<CR>', {})
-keymap('n', '<C-/>', ':bdelete<CR>', {})
+-- keymap('n', '<C-,>', ':bprevious<CR>', {})
+-- keymap('n', '<C-.>', ':bnext<CR>', {})
+-- keymap('n', '<C-/>', ':bdelete<CR>', {})
+keymap('n', '<A-h>', ':bprevious<CR>', {})
+keymap('n', '<A-l>', ':bnext<CR>', {})
+keymap('n', '<A-q>', ':bdelete<CR>', {})
 
+keymap('n', '<C-[>', '<nop>', {})
 keymap('n', '<C-[>', ':tabp<CR>', {})
 keymap('n', '<C-]>', ':tabn<CR>', {})
 keymap('n', '<C-\\>', ':tabclose<CR>', {})

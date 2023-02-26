@@ -1,6 +1,10 @@
-return {
-    require'plugins.ui.colorscheme',
-    require'plugins.ui.bufferline',
-    require'plugins.ui.lualine',
-    require'plugins.ui.nvim-tree',
-}
+require'azurice.utils'
+
+local plugins = {}
+
+table.merge(plugins, require'plugins.ui.colorscheme')
+table.merge(plugins, require'plugins.ui.bufferline')
+table.merge(plugins, require'plugins.ui.lualine')
+table.merge(plugins, require'plugins.ui.nvim-tree')
+
+return plugins

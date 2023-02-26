@@ -1,7 +1,11 @@
-return {
-    require'plugins.coding.treesitter',
-    require'plugins.coding.lsp',
-    require'plugins.coding.cmp',
-    require'plugins.coding.luasnip',
-    require'plugins.coding.nvim-autopairs',
-}
+require'azurice.utils'
+
+local plugins = {}
+
+table.merge(plugins, require'plugins.coding.treesitter')
+table.merge(plugins, require'plugins.coding.lsp')
+table.merge(plugins, require'plugins.coding.cmp')
+table.merge(plugins, require'plugins.coding.luasnip')
+table.merge(plugins, require'plugins.coding.nvim-autopairs')
+
+return plugins
