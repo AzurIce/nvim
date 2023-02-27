@@ -48,7 +48,7 @@ keymap('n', '<C-A-l>', ':vertical resize +2<CR>', {noremap = true})
 -- keymap('n', '<C-/>', ':bdelete<CR>', {})
 keymap('n', '<A-h>', ':bprevious<CR>', {})
 keymap('n', '<A-l>', ':bnext<CR>', {})
-keymap('n', '<A-q>', ':bdelete<CR>', {})
+keymap('n', '<A-q>', ':bdelete<CR>:bprevious<CR>', {})
 
 keymap('n', '<C-[>', '<nop>', {})
 keymap('n', '<C-[>', ':tabp<CR>', {})
