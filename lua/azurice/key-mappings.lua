@@ -3,7 +3,7 @@ local keymap = vim.api.nvim_set_keymap
 ---------------
 -- Keymaping --
 ---------------
-keymap('c', 'w!!', ':SudaWrite', {})
+-- keymap('c', 'w!!', ':SudaWrite', {})
 keymap('', 's', '<nop>', {})
 keymap('', 'S', ':w<CR>', {})
 keymap('', 'Q', ':q<CR>', {})
@@ -33,8 +33,8 @@ keymap('n', '<C-j>', '<C-w>j', {noremap = true})
 keymap('n', '<C-k>', '<C-w>k', {noremap = true})
 keymap('n', '<C-l>', '<C-w>l', {noremap = true})
 
--- keymap('i', '<C-j>', 'v:lua.require\'cmp\'.scroll_docs(-4)', {noremap = true})
--- keymap('i', '<C-k>', 'v:lua.require\'cmp\'.scroll_docs(4)', {noremap = true})
+keymap('i', '<A-j>', 'v:lua.require\'cmp\'.scroll_docs(-4)', {noremap = true})
+keymap('i', '<A-k>', 'v:lua.require\'cmp\'.scroll_docs(4)', {noremap = true})
 
 keymap('n', '<C-A-j>', ':resize -2<CR>', {noremap = true})
 keymap('n', '<C-A-k>', ':resize +2<CR>', {noremap = true})
