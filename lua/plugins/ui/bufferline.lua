@@ -24,9 +24,15 @@ return {
                     diagnostics = "nvim_lsp", -- false | "nvim_lsp" | "coc"
                     diagnostics_update_in_insert = false,
                     offsets = {
+                        -- {
+                        --     filetype = "NvimTree",
+                        --     text = "NvimTree", -- "File Explorer" | function
+                        --     text_align = "center", -- "left" | "center" | "right"
+                        -- }
                         {
-                            filetype = "NvimTree",
-                            text = "NvimTree", -- "File Explorer" | function
+                            filetype = "neo-tree",
+                            text = "NeoTree", -- "File Explorer" | function
+                            highlight = "Directory",
                             text_align = "center", -- "left" | "center" | "right"
                         }
                     },

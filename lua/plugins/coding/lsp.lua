@@ -1,23 +1,13 @@
 return {
     {
         'neovim/nvim-lspconfig',
+        -- event = { "BufReadPre", "BufNewFile", "BufAdd" },
         dependencies = {
             { "folke/neodev.nvim", opts = { experimental = { pathStrict = true } } },
-            'mason.nvim',
             'mason-lspconfig.nvim',
+            'williamboman/mason-lspconfig.nvim',
+            { 'williamboman/mason.nvim', config = true },
         },
-        config = function()
-
-        end
-    },
-
-    {
-        'williamboman/mason-lspconfig.nvim',
-        lazy = true,
-        dependencies = {
-            { 'folke/neodev.nvim', config = true },
-        },
-        cmd = { 'LspInstall', 'LspUninstall' },
         config = function()
             local capabilities = vim.lsp.protocol.make_client_capabilities()
             capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
@@ -34,21 +24,9 @@ return {
                 -- ["lua_ls"] = function () -- server specific handler
                 --     require("lspconfig").lua_ls.setup {
                 --         capabilities = capabilities,
-                --         settings = {
-                --             Lua = {
-                --                 completion = {
-                --                     callSnippet = "Replace"
-                --                 }
-                --             }
-                --         }
-                --     }
                 -- end
             }
         end
     },
-    {
-        'williamboman/mason.nvim',
-        lazy = true,
-        config = true,
-    },
+
 }
