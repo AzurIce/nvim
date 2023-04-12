@@ -2,15 +2,21 @@ return {
     {
         'neovim/nvim-lspconfig',
         dependencies = {
-            { 'folke/neodev.nvim', config = true },
+            { "folke/neodev.nvim", opts = { experimental = { pathStrict = true } } },
+            'mason.nvim',
             'mason-lspconfig.nvim',
         },
+        config = function()
+
+        end
     },
 
     {
         'williamboman/mason-lspconfig.nvim',
         lazy = true,
-        dependencies = { 'mason.nvim' },
+        dependencies = {
+            { 'folke/neodev.nvim', config = true },
+        },
         cmd = { 'LspInstall', 'LspUninstall' },
         config = function()
             local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -25,8 +31,17 @@ return {
                         capabilities = capabilities
                     }
                 end,
-                -- ["rust_analyzer"] = function () -- server specific handler
-                --     require("rust-tools").setup {}
+                -- ["lua_ls"] = function () -- server specific handler
+                --     require("lspconfig").lua_ls.setup {
+                --         capabilities = capabilities,
+                --         settings = {
+                --             Lua = {
+                --                 completion = {
+                --                     callSnippet = "Replace"
+                --                 }
+                --             }
+                --         }
+                --     }
                 -- end
             }
         end

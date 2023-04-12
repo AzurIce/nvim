@@ -60,4 +60,14 @@ if not vim.loop.fs_stat(lazypath) then
 end
 opt.runtimepath : prepend(lazypath)
 
-require('lazy').setup('plugins')
+require('lazy').setup({
+    spec = {
+        { import = 'plugins' },
+    },
+    defaults = {
+        version = false, -- use the latest git commit, default: nil
+    },
+    checker = {
+        enable = true, -- check updates for plugins automatically, default: false
+    }
+})
