@@ -43,7 +43,7 @@ return {
                                         -- entering another markdown buffer
               close_on_bdelete = true,  -- close preview window on buffer delete
 
-              syntax = true,            -- enable syntax highlighting, affects performance
+              syntax = false,            -- enable syntax highlighting, affects performance
 
               theme = 'dark',           -- 'dark' or 'light'
 
