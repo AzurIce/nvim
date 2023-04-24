@@ -42,7 +42,7 @@ keymap('', '-', 'Nzz', {noremap = true})
 keymap('', '=', 'nzz', {noremap = true})
 keymap('', '<ESC>', ':nohlsearch<CR>', {noremap = true})
 
-require 'azurice.key-mappings'
+-- require 'azurice.key-mappings'
 
 -------------------------
 -- Install lazy.nvim --

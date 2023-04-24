@@ -77,6 +77,11 @@ return {
                     }
                 }
             }
+            -- local wk = require('which-key')
+
+            -- wk.register({
+            --     e = { ':NvimTreeToggle<CR>', "Open NvimTree"}
+            -- }, { prefix = '<leader>' })
             vim.api.nvim_set_keymap('n', '<LEADER>e', ':NvimTreeToggle<CR>', {noremap = true})
         end
     },

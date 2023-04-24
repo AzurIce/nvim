@@ -1,5 +1,7 @@
+print('loading key-mappings.lua...')
 local keymap = vim.api.nvim_set_keymap
 
+local wk = require('which-key')
 ---------------
 -- Keymaping --
 ---------------
@@ -24,10 +26,27 @@ keymap('n', '<C-a>', 'gg<S-v>G', {noremap = true})
 keymap('v', '<C-c>', '"+y', {noremap = true})
 
 -- Windowing
-keymap('n', '<C-s>h', ':vsplit<CR>', {})         -- Ctrl + Shift + h: split left
-keymap('n', '<C-s>j', ':split<CR><C-j>', {})     -- Ctrl + Shift + j: split down
-keymap('n', '<C-s>k', ':split<CR>', {})          -- Ctrl + shift + k: split up
-keymap('n', '<C-s>l', ':vsplit<CR><C-l>', {})    -- Ctrl + shift + k: split right
+wk.register({
+    name = '+windowing',
+    s = {
+        name = '+Split',
+        h = {':vsplit<CR>', 'Split Left'},
+        j = {':split<CR><C-j>', 'Split Down'},
+        k = {':split<CR>', 'Split Up'},
+        l = {':vsplit<CR><C-l>', 'Split Right'}
+    },
+    h = {
+        name = '+Adjust Height'
+    }
+--     h = {'<C-w>h', 'Go Left'},
+--     j = {'<C-w>j', 'Go Down'},
+--     k = {'<C-w>k', 'Go Up'},
+--     l = {'<C-w>l', 'Go Right'}
+}, { prefix = '<leader>w', desc='Windowing'})
+-- keymap('n', '<leader>wsh', ':vsplit<CR>', {desc="split left"})         -- Ctrl + s + h: split left
+-- keymap('n', '<leader>wsj', ':split<CR><C-j>', {})     -- Ctrl + s + j: split down
+-- keymap('n', '<leader>wsk', ':split<CR>', {})          -- Ctrl + s + k: split up
+-- keymap('n', '<leader>wsl', ':vsplit<CR><C-l>', {})    -- Ctrl + s + k: split right
 keymap('n', '<C-h>', '<C-w>h', {noremap = true})
 keymap('n', '<C-j>', '<C-w>j', {noremap = true})
 keymap('n', '<C-k>', '<C-w>k', {noremap = true})
@@ -38,8 +57,8 @@ keymap('i', '<A-k>', 'v:lua.require\'cmp\'.scroll_docs(4)', {noremap = true})
 
 keymap('n', '<C-A-j>', ':resize -2<CR>', {noremap = true})
 keymap('n', '<C-A-k>', ':resize +2<CR>', {noremap = true})
-keymap('n', '<C-A-h>', ':vertical resize -2<CR>', {noremap = true})
-keymap('n', '<C-A-l>', ':vertical resize +2<CR>', {noremap = true})
+keymap('n', '<C-A-h>', '<C-w><', {noremap = true})
+keymap('n', '<C-A-l>', '<C-w>>', {noremap = true})
 -- Buffer and Tab
 -- keymap('n', '<C-Tab>', '<nop>', {})
 -- keymap('n', '<C-Tab>', 'v:count!=0? ":<C-u>" . v:count . "tabn<CR>" : ":tabn<CR>"', {noremap = true, expr = true})

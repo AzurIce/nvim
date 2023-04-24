@@ -23,6 +23,7 @@ return {
             vim.o.timeout = true
             vim.o.timeoutlen = 300
             require("which-key").setup() -- TODO: figure this out
+            require 'azurice.key-mappings'
         end
     },
     {
