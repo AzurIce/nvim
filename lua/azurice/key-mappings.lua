@@ -109,7 +109,7 @@ function Compile()
                 exec '!g++ "%" -o "%<"'
             endif
         elseif &filetype == 'markdown'
-            exec 'MarkdownPreview'
+            lua require('peek').open()
         endif
     ]]
 end
