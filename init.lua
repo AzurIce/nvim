@@ -45,7 +45,7 @@ keymap('', '<ESC>', ':nohlsearch<CR>', {noremap = true})
 -- require 'azurice.key-mappings'
 
 -------------------------
--- Install lazy.nvim --
+-- Bootstraping lazy.nvim --
 -------------------------
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -60,12 +60,9 @@ if not vim.loop.fs_stat(lazypath) then
 end
 opt.runtimepath : prepend(lazypath)
 
-require('lazy').setup({
-    spec = {
-        { import = 'plugins' },
-    },
+require('lazy').setup('plugins', {
     defaults = {
-        version = false, -- use the latest git commit, default: nil
+        version = "*", -- use the latest git commit, default: nil
     },
     checker = {
         enable = true, -- check updates for plugins automatically, default: false
