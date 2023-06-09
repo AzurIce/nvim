@@ -10,7 +10,8 @@ return {
             -- Use light theme during 7 ~ 17
             local current_hour = tonumber(os.date("%H"))
             if current_hour >= 7 and current_hour <= 17 then
-                vim.g.material_style = 'lighter'
+                -- vim.g.material_style = 'lighter'
+                vim.g.material_style = 'palenight'
                 -- opt.background = 'light'
             else
                 vim.g.material_style = 'palenight'
