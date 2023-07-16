@@ -66,8 +66,8 @@ keymap('n', '<C-A-l>', '<C-w>>', {noremap = true})
 -- keymap('n', '<C-.>', ':bnext<CR>', {})
 -- keymap('n', '<C-/>', ':bdelete<CR>', {})
 
-keymap("n", "<A-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev buffer" })
-keymap("n", "<A-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
+keymap("n", "<A-[>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev buffer" })
+keymap("n", "<A-]>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
 keymap("n", "[b", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev buffer" })
 keymap("n", "]b", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
 
