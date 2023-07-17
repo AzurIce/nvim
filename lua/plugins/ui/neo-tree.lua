@@ -1,3 +1,4 @@
+
 return {
     {
         "nvim-neo-tree/neo-tree.nvim",
@@ -22,7 +23,7 @@ return {
                     -- "document_symbols",
                 },
                 add_blank_line_at_top = false, -- Add a blank line at the top of the tree.
-                auto_clean_after_session_restore = true, -- Automatically clean up broken neo-tree buffers saved in sessions
+                auto_clean_after_session_restore = false, -- Automatically clean up broken neo-tree buffers saved in sessions
                 close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
                 -- popup_border_style is for input and confirmation dialogs.
                 -- Configurtaion of floating window is done in the individual source sections.
@@ -64,9 +65,9 @@ return {
                     show_scrolled_off_parent_node = false, -- this will replace the tabs with the parent path
                     -- of the top visible node when scrolled down.
                     sources = {
-                      { source = "filesystem", display_name = " 󰉓 Files " },
-                      { source = "git_status", display_name = " 󰊢 Git " },
+                        { source = "filesystem" },
                         { source = "buffers" },
+                        { source = "git_status" },
                     },
                     content_layout = "start", -- only with `tabs_layout` = "equal", "focus"
                     --                start  : |/ 裡 bufname     \/...
@@ -134,24 +135,24 @@ return {
                 --    handler = function(args)
                 --      -- fix references to file
                 --      print(args.source, " moved to ", args.destination)
-                --    end
+            --    end
                 --  },
-                --  {
+            --  {
                 --    event = "neo_tree_buffer_enter",
-                --    handler = function()
-                --      vim.cmd 'highlight! Cursor blend=100'
-                --    end
+            --    handler = function()
+            --      vim.cmd 'highlight! Cursor blend=100'
+            --    end
                 --  },
-                --  {
+            --  {
                 --    event = "neo_tree_buffer_leave",
                 --    handler = function()
                 --      vim.cmd 'highlight! Cursor guibg=#5f87af blend=0'
                 --    end
                 --  },
-                -- {
+            -- {
                 --   event = "neo_tree_window_before_open",
                 --   handler = function(args)
-                --     print("neo_tree_window_before_open", vim.inspect(args))
+            --     print("neo_tree_window_before_open", vim.inspect(args))
                 --   end
                 -- },
                 -- {
@@ -210,8 +211,8 @@ return {
                     icon = {
                         folder_closed = "",
                         folder_open = "",
-                      folder_empty = "󰜌",
-                      folder_empty_open = "󰜌",
+                        folder_empty = "ﰊ",
+                        folder_empty_open = "ﰊ",
                         -- The next two settings are only a fallback, if you use nvim-web-devicons and configure default icons there
                         -- then these will never be used.
                         default = "*",
@@ -236,17 +237,17 @@ return {
                             added     = "✚", -- NOTE: you can set any of these to an empty string to not show them
                             deleted   = "✖",
                             modified  = "",
-                            renamed   = "󰁕",
+                            renamed   = "",
                             -- Status type
                             untracked = "",
                             ignored   = "",
-                            unstaged  = "󰄱",
+                            unstaged  = "",
                             staged    = "",
                             conflict  = "",
                         },
                         align = "right",
                     },
-                },
+            },
                 renderers = {
                     directory = {
                         { "indent" },
@@ -305,10 +306,10 @@ return {
                 -- Global custom commands that will be available in all sources (if not overridden in `opts[source_name].commands`)
                 --
                 -- You can then reference the custom command by adding a mapping to it:
-                --    globally    -> `opts.window.mappings`
+            --    globally    -> `opts.window.mappings`
                 --    locally     -> `opt[source_name].window.mappings` to make it source specific.
-                --
-                -- commands = {              |  window {                 |  filesystem {
+            --
+            -- commands = {              |  window {                 |  filesystem {
                 --   hello = function()      |    mappings = {           |    commands = {
                 --     print("Hello world")  |      ["<C-c>"] = "hello"  |      hello = function()
                 --   end                     |    }                      |        print("Hello world in filesystem")
@@ -316,14 +317,14 @@ return {
                 --
                 -- see `:h neo-tree-global-custom-commands`
                 commands = {}, -- A list of functions
-
+            
                 window = { -- see https://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/popup for
-                    -- possible options. These can also be functions that return these options.
+                -- possible options. These can also be functions that return these options.
                     position = "left", -- left, right, top, bottom, float, current
                     width = 40, -- applies to left and right positions
                     height = 15, -- applies to top and bottom positions
                     auto_expand_width = false, -- expand the window when file exceeds the window width. does not work with position = "float"
-                    popup = { -- settings that apply to float position only
+            popup = { -- settings that apply to float position only
                         size = {
                             height = "80%",
                             width = "50%",
@@ -390,63 +391,63 @@ return {
                     window = {
                         mappings = {
                             ["H"] = "toggle_hidden",
-                            ["/"] = "fuzzy_finder",
+            ["/"] = "fuzzy_finder",
                             ["D"] = "fuzzy_finder_directory",
-                            --["/"] = "filter_as_you_type", -- this was the default until v1.28
-                            ["#"] = "fuzzy_sorter", -- fuzzy sorting using the fzy algorithm
-                            -- ["D"] = "fuzzy_sorter_directory",
-                            ["f"] = "filter_on_submit",
+            --["/"] = "filter_as_you_type", -- this was the default until v1.28
+            ["#"] = "fuzzy_sorter", -- fuzzy sorting using the fzy algorithm
+            -- ["D"] = "fuzzy_sorter_directory",
+            ["f"] = "filter_on_submit",
                             ["<C-x>"] = "clear_filter",
-                            ["<bs>"] = "navigate_up",
-                            ["."] = "set_root",
-                            ["[g"] = "prev_git_modified",
-                            ["]g"] = "next_git_modified",
-                        },
-                        fuzzy_finder_mappings = { -- define keymaps for filter popup window in fuzzy_finder_mode
+            ["<bs>"] = "navigate_up",
+            ["."] = "set_root",
+            ["[g"] = "prev_git_modified",
+            ["]g"] = "next_git_modified",
+            },
+            fuzzy_finder_mappings = { -- define keymaps for filter popup window in fuzzy_finder_mode
                             ["<down>"] = "move_cursor_down",
-                            ["<C-n>"] = "move_cursor_down",
-                            ["<up>"] = "move_cursor_up",
+            ["<C-n>"] = "move_cursor_down",
+            ["<up>"] = "move_cursor_up",
                             ["<C-p>"] = "move_cursor_up",
                         },
                     },
-                    async_directory_scan = "auto", -- "auto"   means refreshes are async, but it's synchronous when called from the Neotree commands.
+            async_directory_scan = "auto", -- "auto"   means refreshes are async, but it's synchronous when called from the Neotree commands.
                     -- "always" means directory scans are always async.
                     -- "never"  means directory scans are never async.
                     scan_mode = "shallow", -- "shallow": Don't scan into directories to detect possible empty directory a priori
                     -- "deep": Scan into directories to detect empty or grouped empty directories a priori.
                     bind_to_cwd = true, -- true creates a 2-way binding between vim's cwd and neo-tree's root
                     cwd_target = {
-                        sidebar = "tab",   -- sidebar is when position = left or right
+                sidebar = "tab",   -- sidebar is when position = left or right
                         current = "window" -- current is when position = current
                     },
                     -- The renderer section provides the renderers that will be used to render the tree.
-                    --   The first level is the node type.
+            --   The first level is the node type.
                     --   For each node type, you can specify a list of components to render.
                     --       Components are rendered in the order they are specified.
-                    --         The first field in each component is the name of the function to call.
-                    --         The rest of the fields are passed to the function as the "config" argument.
-                    filtered_items = {
-                        visible = false, -- when true, they will just be displayed differently than normal items
+            --         The first field in each component is the name of the function to call.
+            --         The rest of the fields are passed to the function as the "config" argument.
+            filtered_items = {
+                visible = false, -- when true, they will just be displayed differently than normal items
                         force_visible_in_empty_folder = false, -- when true, hidden files will be shown if the root folder is otherwise empty
-                        show_hidden_count = true, -- when true, the number of hidden items in each folder will be shown as the last entry
-                        hide_dotfiles = true,
+            show_hidden_count = true, -- when true, the number of hidden items in each folder will be shown as the last entry
+            hide_dotfiles = true,
                         hide_gitignored = true,
-                        hide_hidden = true, -- only works on Windows for hidden files/directories
+            hide_hidden = true, -- only works on Windows for hidden files/directories
                         hide_by_name = {
                             ".DS_Store",
                             "thumbs.db"
-                            --"node_modules",
+            --"node_modules",
                         },
-                        hide_by_pattern = { -- uses glob style patterns
+            hide_by_pattern = { -- uses glob style patterns
                             --"*.meta",
                             --"*/src/*/tsconfig.json"
                         },
                         always_show = { -- remains visible even if other settings would normally hide it
                             --".gitignored",
-                        },
-                        never_show = { -- remains hidden even if visible is toggled to true, this overrides always_show
-                            --".DS_Store",
-                            --"thumbs.db"
+            },
+            never_show = { -- remains hidden even if visible is toggled to true, this overrides always_show
+                --".DS_Store",
+            --"thumbs.db"
                         },
                         never_show_by_pattern = { -- uses glob style patterns
                             --".null-ls_*",
@@ -461,7 +462,7 @@ return {
                     --find_args = {  -- you can specify extra args to pass to the find command.
                     --  fd = {
                     --  "--exclude", ".git",
-                    --  "--exclude",  "node_modules"
+            --  "--exclude",  "node_modules"
                     --  }
                     --},
                     ---- or use a function instead of list of strings
@@ -499,7 +500,7 @@ return {
                 },
                 buffers = {
                     bind_to_cwd = true,
-                    follow_current_file = false, -- This will find and focus the file in the active buffer every time
+                    follow_current_file = true, -- This will find and focus the file in the active buffer every time
                     -- the current file is changed while the tree is open.
                     group_empty_dirs = true,  -- when true, empty directories will be grouped together
                     show_unloaded = false,    -- When working with sessions, for example, restored but unfocused buffers
@@ -511,37 +512,37 @@ return {
                             ["bd"] = "buffer_delete",
                         },
                     },
-                },
-                git_status = {
-                    window = {
-                        mappings = {
+            },
+            git_status = {
+                window = {
+                    mappings = {
                             ["A"] = "git_add_all",
-                            ["gu"] = "git_unstage_file",
-                            ["ga"] = "git_add_file",
-                            ["gr"] = "git_revert_file",
-                            ["gc"] = "git_commit",
-                            ["gp"] = "git_push",
+            ["gu"] = "git_unstage_file",
+            ["ga"] = "git_add_file",
+            ["gr"] = "git_revert_file",
+            ["gc"] = "git_commit",
+            ["gp"] = "git_push",
                             ["gg"] = "git_commit_and_push",
-                        },
-                    },
+            },
+            },
                 },
                 document_symbols = {
-                    follow_cursor = false,
-                    client_filters = "first",
-                    renderers = {
-                        root = {
-                            {"indent"},
-                            {"icon", default="C" },
+                follow_cursor = false,
+                client_filters = "first",
+                renderers = {
+                    root = {
+                {"indent"},
+            {"icon", default="C" },
                             {"name", zindex = 10},
-                        },
+            },
                         symbol = {
                             {"indent", with_expanders = true},
                             {"kind_icon", default="?" },
                             {"container",
-                                content = {
+            content = {
                                     {"name", zindex = 10},
                                     {"kind_name", zindex = 20, align = "right"},
-                                }
+            }
                             }
                         },
                     },
@@ -555,55 +556,54 @@ return {
                             ["x"] = "noop",
                             ["p"] = "noop",
                             ["c"] = "noop",
-                            ["m"] = "noop",
+            ["m"] = "noop",
                             ["a"] = "noop",
-                            ["/"] = "filter",
+            ["/"] = "filter",
                             ["f"] = "filter_on_submit",
-                        },
+            },
                     },
-                    custom_kinds = {
-                        -- define custom kinds here (also remember to add icon and hl group to kinds)
+            custom_kinds = {
+                -- define custom kinds here (also remember to add icon and hl group to kinds)
                         -- ccls
-                        -- [252] = 'TypeAlias',
-                        -- [253] = 'Parameter',
+            -- [252] = 'TypeAlias',
+            -- [253] = 'Parameter',
                         -- [254] = 'StaticMethod',
                         -- [255] = 'Macro',
                     },
-                    kinds = {
-                      File = { icon = "󰈙", hl = "Tag" },
-                      Namespace = { icon = "󰌗", hl = "Include" },
-                      Package = { icon = "󰏖", hl = "Label" },
-                      Class = { icon = "󰌗", hl = "Include" },
-                      Property = { icon = "󰆧", hl = "@property" },
-                      Enum = { icon = "󰒻", hl = "@number" },
-                      Function = { icon = "󰊕", hl = "Function" },
-                      String = { icon = "󰀬", hl = "String" },
-                      Number = { icon = "󰎠", hl = "Number" },
-                      Array = { icon = "󰅪", hl = "Type" },
-                      Object = { icon = "󰅩", hl = "Type" },
-                      Key = { icon = "󰌋", hl = "" },
-                      Struct = { icon = "󰌗", hl = "Type" },
-                      Operator = { icon = "󰆕", hl = "Operator" },
-                      TypeParameter = { icon = "󰊄", hl = "Type" },
-                      StaticMethod = { icon = '󰠄 ', hl = 'Function' },
-                        Unknown = { icon = "?", hl = "" },
+            kinds = {
+                Unknown = { icon = "?", hl = "" },
                         Root = { icon = "", hl = "NeoTreeRootName" },
-                        Module = { icon = "", hl = "Exception" },
-                        Method = { icon = "", hl = "Function" },
-                        Field = { icon = "", hl = "@field" },
+                        File = { icon = "", hl = "Tag" },
+            Module = { icon = "", hl = "Exception" },
+            Namespace = { icon = "", hl = "Include" },
+                        Package = { icon = "", hl = "Label" },
+                        Class = { icon = "", hl = "Include" },
+            Method = { icon = "", hl = "Function" },
+                        Property = { icon = "", hl = "@property" },
+            Field = { icon = "", hl = "@field" },
                         Constructor = { icon = "", hl = "@constructor" },
+                        Enum = { icon = "了", hl = "@number" },
                         Interface = { icon = "", hl = "Type" },
-                        Variable = { icon = "", hl = "@variable" },
+            Function = { icon = "", hl = "Function" },
+            Variable = { icon = "", hl = "@variable" },
                         Constant = { icon = "", hl = "Constant" },
+                        String = { icon = "", hl = "String" },
+                        Number = { icon = "", hl = "Number" },
                         Boolean = { icon = "", hl = "Boolean" },
-                        Null = { icon = "", hl = "Constant" },
+                        Array = { icon = "", hl = "Type" },
+                        Object = { icon = "", hl = "Type" },
+                        Key = { icon = "", hl = "" },
+            Null = { icon = "", hl = "Constant" },
                         EnumMember = { icon = "", hl = "Number" },
+                        Struct = { icon = "", hl = "Type" },
                         Event = { icon = "", hl = "Constant" },
-
-                        -- ccls
+                        Operator = { icon = "", hl = "Operator" },
+                        TypeParameter = { icon = "", hl = "Type" },
+            
+            -- ccls
                         -- TypeAlias = { icon = ' ', hl = 'Type' },
                         -- Parameter = { icon = ' ', hl = '@parameter' },
-                        -- StaticMethod = { icon = 'ﴂ ', hl = 'Function' },
+            -- StaticMethod = { icon = 'ﴂ ', hl = 'Function' },
                         -- Macro = { icon = ' ', hl = 'Macro' },
                     }
                 },
@@ -617,7 +617,7 @@ return {
                         }
                     },
                     window = {
-                        mappings = {
+                mappings = {
                             ["<cr>"] = "toggle_node",
                             ["<C-e>"] = "example_command",
                             ["d"] = "show_debug_info",
