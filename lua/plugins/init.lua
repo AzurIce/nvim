@@ -16,6 +16,12 @@ return {
 
     -- Others
     'lambdalisue/suda.vim',
+    {
+        'akinsho/toggleterm.nvim',
+        version = "*",
+        lazy = false,
+        config = true, -- TODO: do more configurations here
+    },
     'tpope/vim-surround',
     {
         "folke/which-key.nvim",

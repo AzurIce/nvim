@@ -25,6 +25,14 @@ keymap('', 'L', '$', {noremap = true})
 keymap('n', '<C-a>', 'gg<S-v>G', {noremap = true})
 keymap('v', '<C-c>', '"+y', {noremap = true})
 
+-- Terminaling
+keymap('t', '<Esc>', '<C-\\><C-n>', {noremap = true})
+keymap('', '<leader>t', ':ToggleTerm<CR>', {})
+-- wk.register({
+--     name = '+terminaling',
+--     b = {':ToggleTerm<CR>', 'Open terminal at bottom'}
+-- }, { prefix = '<leader>t', desc = 'terminaling'})
+
 -- Windowing
 wk.register({
     name = '+windowing',
