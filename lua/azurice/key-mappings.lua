@@ -1,7 +1,7 @@
 print('loading key-mappings.lua...')
 local keymap = vim.api.nvim_set_keymap
 
-local wk = require('which-key')
+-- local wk = require('which-key')
 ---------------
 -- Keymaping --
 ---------------
@@ -34,23 +34,23 @@ keymap('', '<leader>t', ':ToggleTerm<CR>', {})
 -- }, { prefix = '<leader>t', desc = 'terminaling'})
 
 -- Windowing
-wk.register({
-    name = '+windowing',
-    s = {
-        name = '+Split',
-        h = {':vsplit<CR>', 'Split Left'},
-        j = {':split<CR><C-j>', 'Split Down'},
-        k = {':split<CR>', 'Split Up'},
-        l = {':vsplit<CR><C-l>', 'Split Right'}
-    },
-    h = {
-        name = '+Adjust Height'
-    }
---     h = {'<C-w>h', 'Go Left'},
---     j = {'<C-w>j', 'Go Down'},
---     k = {'<C-w>k', 'Go Up'},
---     l = {'<C-w>l', 'Go Right'}
-}, { prefix = '<leader>w', desc='Windowing'})
+-- wk.register({
+--     name = '+windowing',
+--     s = {
+--         name = '+Split',
+--         h = {':vsplit<CR>', 'Split Left'},
+--         j = {':split<CR><C-j>', 'Split Down'},
+--         k = {':split<CR>', 'Split Up'},
+--         l = {':vsplit<CR><C-l>', 'Split Right'}
+--     },
+--     h = {
+--         name = '+Adjust Height'
+--     }
+-- --     h = {'<C-w>h', 'Go Left'},
+-- --     j = {'<C-w>j', 'Go Down'},
+-- --     k = {'<C-w>k', 'Go Up'},
+-- --     l = {'<C-w>l', 'Go Right'}
+-- }, { prefix = '<leader>w', desc='Windowing'})
 -- keymap('n', '<leader>wsh', ':vsplit<CR>', {desc="split left"})         -- Ctrl + s + h: split left
 -- keymap('n', '<leader>wsj', ':split<CR><C-j>', {})     -- Ctrl + s + j: split down
 -- keymap('n', '<leader>wsk', ':split<CR>', {})          -- Ctrl + s + k: split up
@@ -81,13 +81,22 @@ keymap("n", "]b", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
 
 -- keymap('n', '<A-h>', ':bprevious<CR>', {})
 -- keymap('n', '<A-l>', ':bnext<CR>', {})
-keymap('n', '<A-q>', ':bdelete<CR>:bprevious<CR>', {})
+if vim.fn.has('mac') then
+    keymap('n', '<D-[>', '<nop>', {})
+    keymap('n', '<D-[>', ':tabp<CR>', {})
+    keymap('n', '<D-]>', ':tabn<CR>', {})
+    keymap('n', '<D-\\>', ':tabclose<CR>', {})
+    -- keymap('n', '<D-n>', ':tabe<CR>', {noremap = true})
+else
+    keymap('n', '<A-q>', ':bdelete<CR>:bprevious<CR>', {})
 
-keymap('n', '<C-[>', '<nop>', {})
-keymap('n', '<C-[>', ':tabp<CR>', {})
-keymap('n', '<C-]>', ':tabn<CR>', {})
-keymap('n', '<C-\\>', ':tabclose<CR>', {})
-keymap('n', '<C-n>', ':tabe<CR>', {noremap = true})
+    keymap('n', '<C-[>', '<nop>', {})
+    keymap('n', '<C-[>', ':tabp<CR>', {})
+    keymap('n', '<C-]>', ':tabn<CR>', {})
+    keymap('n', '<C-\\>', ':tabclose<CR>', {})
+    -- keymap('n', '<C-n>', ':tabe<CR>', {noremap = true})
+end
+keymap('n', '<leader>tn', ':tabe<CR>', {noremap = true})
 
 -- Jumping
 -- keymap('n', '<C-]>', 'gf', {noremap = true})
