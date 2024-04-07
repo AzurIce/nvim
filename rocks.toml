@@ -45,10 +45,23 @@ nvim-cokeline = { git = "willothy/nvim-cokeline" }
 nvim-lspconfig = { version = "0.1.7", opt = true }
 "neodev.nvim" = { version = "2.5.2", opt = true }
 
+# treesitter
+tree-sitter-lua = "scm"
+tree-sitter-toml = "scm"
+tree-sitter-vimdoc = "scm"
+
+# cmp
+nvim-cmp = "0.0.1"
+cmp_luasnip = { version = "scm", opt = true }
+cmp-nvim-lsp = { version = "scm", opt = true }
+cmp-buffer = { version = "scm", opt = true }
+cmp-path = { version = "scm", opt = true }
+cmp-cmdline = { version = "scm", opt = true }
+
 [config]
 plugins_dir = "plugins/"
 auto_setup = false
 
 [treesitter]
 auto_highlight = "all"
-auto_install = "prompt"
+auto_install = true

@@ -1,7 +1,8 @@
-require("rocks").packadd("neodev")
-require("neodev").setup({
-  -- add any options here, or leave empty to use the default settings
-})
+-- issue: https://github.com/folke/neodev.nvim/issues/180
+-- require("rocks").packadd("neodev")
+-- require("neodev").setup({
+--   -- add any options here, or leave empty to use the default settings
+-- })
 
 require("rocks").packadd("mason")
 require("rocks").packadd("mason-lspconfig")
@@ -16,8 +17,41 @@ require("mason-lspconfig").setup {
 -- require("lspconfig").rust_analyzer.setup {}
 -- ...
 require("rocks").packadd("lspconfig")
-require("lspconfig").lua_ls.setup {}
-require("lspconfig").rust_analyzer.setup {}
+local lspconfig = require("lspconfig")
+
+lspconfig.lua_ls.setup {
+  on_init = function(client)
+    local path = client.workspace_folders[1].name
+    if vim.loop.fs_stat(path..'/.luarc.json') or vim.loop.fs_stat(path..'/.luarc.jsonc') then
+      return
+    end
+
+    client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+      runtime = {
+        -- Tell the language server which version of Lua you're using
+        -- (most likely LuaJIT in the case of Neovim)
+        version = 'LuaJIT'
+      },
+      -- Make the server aware of Neovim runtime files
+      workspace = {
+        checkThirdParty = false,
+        library = {
+          vim.env.VIMRUNTIME
+          -- Depending on the usage, you might want to add additional paths here.
+          -- "${3rd}/luv/library"
+          -- "${3rd}/busted/library",
+        }
+        -- or pull in all of 'runtimepath'. NOTE: this is a lot slower
+        -- library = vim.api.nvim_get_runtime_file("", true)
+      }
+    })
+  end,
+  settings = {
+    Lua = {}
+  }
+}
+lspconfig.rust_analyzer.setup {}
+lspconfig.clangd.setup{}
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
@@ -51,7 +85,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
     vim.keymap.set('n', '<space>r', vim.lsp.buf.rename, opts)
     -- vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
-    vim.keymap.set('n', '<A-F>', function()
+    vim.keymap.set('n', '<space>lf', function()
       vim.lsp.buf.format { async = true }
     end, opts)
   end,
