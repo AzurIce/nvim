@@ -1,5 +1,5 @@
 [plugins]
-"rocks-config.nvim" = "1.4.0"
+"rocks-config.nvim" = "1.5.0"
 "rocks-git.nvim" = "1.4.0"
 
 "rocks-treesitter.nvim" = "scm"
@@ -57,14 +57,14 @@ tree-sitter-just = "scm"
 tree-sitter-git_config = "scm"
 
 ### Utilities ###
-resession.nvim = { git = "stevearc/resession.nvim" }
+"resession.nvim" = { git = "stevearc/resession.nvim" }
 
 ### file manager ###
 # fm-nvim = { git = "is0n/fm-nvim" }
-tfm.nvim = { git = "Rolv-Apneseth/tfm.nvim" }
+"tfm.nvim" = { git = "Rolv-Apneseth/tfm.nvim" }
 
 ### tabbing ###
-scope.nvim = { git = "tiagovla/scope.nvim" }
+"scope.nvim" = { git = "tiagovla/scope.nvim" }
 nvim-cokeline = { git = "willothy/nvim-cokeline" }
 
 [config]
