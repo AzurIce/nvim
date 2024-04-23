@@ -52,6 +52,7 @@ lspconfig.lua_ls.setup {
 }
 lspconfig.rust_analyzer.setup {}
 lspconfig.clangd.setup{}
+lspconfig.pylsp.setup{}
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
@@ -85,7 +86,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
     vim.keymap.set('n', '<space>r', vim.lsp.buf.rename, opts)
     -- vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
-    vim.keymap.set('n', '<space>lf', function()
+    vim.keymap.set('n', '<space>f', function()
       vim.lsp.buf.format { async = true }
     end, opts)
   end,
