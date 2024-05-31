@@ -73,5 +73,6 @@ if not vim.fn.has('win32') then
     vim.cmd('hi CursorLine guibg=None ctermbg=None')
 end
 
-require("rocks").packadd("material.nvim")
+-- require("rocks").packadd("material.nvim")
+vim.cmd.packadd 'material.nvim'
 vim.cmd.colorscheme 'material'

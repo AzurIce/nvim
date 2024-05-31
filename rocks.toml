@@ -1,6 +1,6 @@
 [plugins]
-"rocks-config.nvim" = "1.5.0"
-"rocks-git.nvim" = "1.4.0"
+"rocks-config.nvim" = "1.6.0"
+"rocks-git.nvim" = "1.5.1"
 
 "rocks-treesitter.nvim" = "scm"
 # nvim-treesitter = "0.9.2"
@@ -29,32 +29,18 @@ alpha-nvim = "scm"
 ####################
 #       LSP        #
 ####################
-"mason.nvim" = { version = "1.10.0", opt = true }
-"mason-lspconfig.nvim" = { version = "1.27.0", opt = true }
-nvim-lspconfig = { version = "0.1.7", opt = true }
-"neodev.nvim" = { version = "2.5.2", opt = true }
-
-# treesitter
-tree-sitter-lua = "scm"
-tree-sitter-toml = "scm"
-tree-sitter-vimdoc = "scm"
+"mason.nvim" = { version = "1.10.0" }
+"mason-lspconfig.nvim" = { version = "1.27.0" }
+nvim-lspconfig = { version = "0.1.7" }
+"neodev.nvim" = { version = "2.5.2" }
 
 # cmp
 nvim-cmp = "0.0.1"
-cmp_luasnip = { version = "scm", opt = true }
-cmp-nvim-lsp = { version = "scm", opt = true }
-cmp-buffer = { version = "scm", opt = true }
-cmp-path = { version = "scm", opt = true }
-cmp-cmdline = { version = "scm", opt = true }
-tree-sitter-nix = "scm"
-tree-sitter-yaml = "scm"
-tree-sitter-requirements = "scm"
-tree-sitter-markdown = "scm"
-tree-sitter-bash = "scm"
-tree-sitter-python = "scm"
-tree-sitter-gitignore = "scm"
-tree-sitter-just = "scm"
-tree-sitter-git_config = "scm"
+cmp_luasnip = { version = "scm" }
+cmp-nvim-lsp = { version = "scm" }
+cmp-buffer = { version = "scm" }
+cmp-path = { version = "scm" }
+cmp-cmdline = { version = "scm" }
 
 ### Utilities ###
 "resession.nvim" = { git = "stevearc/resession.nvim" }
@@ -66,6 +52,44 @@ tree-sitter-git_config = "scm"
 ### tabbing ###
 "scope.nvim" = { git = "tiagovla/scope.nvim" }
 nvim-cokeline = { git = "willothy/nvim-cokeline" }
+
+# treesitter
+tree-sitter-lua = "scm"
+tree-sitter-toml = "scm"
+tree-sitter-vimdoc = "scm"
+tree-sitter-nix = "scm"
+tree-sitter-yaml = "scm"
+tree-sitter-requirements = "scm"
+tree-sitter-markdown = "scm"
+tree-sitter-bash = "scm"
+tree-sitter-python = "scm"
+tree-sitter-gitignore = "scm"
+tree-sitter-just = "scm"
+tree-sitter-git_config = "scm"
+tree-sitter-cpp = "scm"
+tree-sitter-make = "scm"
+tree-sitter-c = "scm"
+
+[bundles.lsp]
+items = [
+    "neodev.nvim",
+    "nvim-lspconfig",
+    "mason.nvim",
+    "mason-lspconfig.nvim",
+    "nvim-cmp"
+]
+config = "plugins.bundles.lsp"
+
+[bundles.cmp]
+items = [
+    "nvim-cmp",
+    "cmp_luasnip",
+    "cmp-nvim-lsp",
+    "cmp-buffer",
+    "cmp-path",
+    "cmp-cmdline"
+]
+config = "plugins.bundles.cmp"
 
 [config]
 plugins_dir = "plugins/"

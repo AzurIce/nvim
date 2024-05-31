@@ -1,11 +1,8 @@
 -- issue: https://github.com/folke/neodev.nvim/issues/180
 -- require("rocks").packadd("neodev")
 -- require("neodev").setup({
---   -- add any options here, or leave empty to use the default settings
+-- -- add any options here, or leave empty to use the default settings
 -- })
-
-require("rocks").packadd("mason")
-require("rocks").packadd("mason-lspconfig")
 
 require("mason").setup()
 require("mason-lspconfig").setup {
@@ -16,7 +13,6 @@ require("mason-lspconfig").setup {
 -- require("lspconfig").lua_ls.setup {}
 -- require("lspconfig").rust_analyzer.setup {}
 -- ...
-require("rocks").packadd("lspconfig")
 local lspconfig = require("lspconfig")
 
 lspconfig.lua_ls.setup {
