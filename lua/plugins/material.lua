@@ -74,5 +74,5 @@ if not vim.fn.has('win32') then
 end
 
 -- require("rocks").packadd("material.nvim")
-vim.cmd.packadd 'material.nvim'
+-- vim.cmd.packadd 'material.nvim'
 vim.cmd.colorscheme 'material'
