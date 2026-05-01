@@ -5,9 +5,37 @@
 -- })
 
 require("mason").setup()
-require("mason-lspconfig").setup {
-    ensure_installed = { "lua_ls", "rust_analyzer" },
-}
+
+-- mason 2.x registry is loaded asynchronously from GitHub.
+-- If ensure_installed runs before the registry is ready, all entries
+-- appear invalid. We defer ensure_installed until after the first
+-- refresh succeeds.
+require("mason-lspconfig").setup({
+    automatic_enable = false,
+})
+
+vim.defer_fn(function()
+    local ok, registry = pcall(require, "mason-registry")
+    if not ok then
+        return
+    end
+    registry.refresh(function(success)
+        if not success then
+            vim.notify("mason registry refresh failed – LSP servers won't auto-install", vim.log.levels.WARN)
+            return
+        end
+        local mapping = require("mason-lspconfig.mappings").get_mason_map().lspconfig_to_package
+        for _, server in ipairs({ "lua_ls", "rust_analyzer" }) do
+            local pkg_name = mapping and mapping[server]
+            if pkg_name then
+                local ok2, pkg = pcall(registry.get_package, pkg_name)
+                if ok2 and pkg and not pkg:is_installed() then
+                    pkg:install()
+                end
+            end
+        end
+    end)
+end, 3000)
 
 -- After setting up mason-lspconfig you may set up servers via lspconfig
 -- require("lspconfig").lua_ls.setup {}
@@ -28,7 +56,7 @@ lspconfig.lua_ls.setup {
         -- (most likely LuaJIT in the case of Neovim)
         version = 'LuaJIT'
       },
-      -- Make the server aware of Neovim runtime files
+      -- Make the language server aware of Neovim runtime files
       workspace = {
         checkThirdParty = false,
         library = {

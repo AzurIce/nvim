@@ -1,3 +1,15 @@
+-- Workaround: Neo-tree 3.40 registers a BufModifiedSet autocmd that
+-- can fail on certain Neovim nightly builds when sourced via rocks.nvim.
+-- We monkey-patch the event registration to skip it.
+local events = require("neo-tree.events")
+local orig_define = events.define_autocmd_event
+events.define_autocmd_event = function(event_name, autocmds, ...)
+    if event_name == events.VIM_BUFFER_MODIFIED_SET then
+        return
+    end
+    return orig_define(event_name, autocmds, ...)
+end
+
 require("neo-tree").setup({
     sources = { "filesystem", "buffers", "git_status", "document_symbols" },
     source_selector = {

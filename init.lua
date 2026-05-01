@@ -24,8 +24,8 @@ opt.fileencoding = "utf-8"
 -- Indenting and Tabbing --
 ---------------------------
 opt.expandtab = true -- '\t' will be inserted as ' '
-opt.tabstop = 4 -- one '\t' will be displayed as four ' '
-opt.shiftwidth = 4 -- One '\t' is equal to four ' '
+opt.tabstop = 4      -- one '\t' will be displayed as four ' '
+opt.shiftwidth = 4   -- One '\t' is equal to four ' '
 
 opt.autoindent = true
 opt.smartindent = true
@@ -37,113 +37,114 @@ opt.autoread = true -- Read file when changed outside of Vim
 opt.ignorecase = true
 opt.incsearch = true
 opt.smartcase = true
-keymap('', '-', 'Nzz', {noremap = true})
-keymap('', '=', 'nzz', {noremap = true})
-keymap('', '<ESC>', ':nohlsearch<CR>', {noremap = true})
+keymap('', '-', 'Nzz', { noremap = true })
+keymap('', '=', 'nzz', { noremap = true })
+keymap('', '<ESC>', ':nohlsearch<CR>', { noremap = true })
 
 require 'azurice.key-mappings'
-
--------------------------
--- Bootstraping lazy.nvim --
--------------------------
--- local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
--- if not vim.loop.fs_stat(lazypath) then
---   vim.fn.system({
---     "git",
---     "clone",
---     "--filter=blob:none",
---     "https://github.com/folke/lazy.nvim.git",
---     "--branch=stable", -- latest stable release
---     lazypath,
---   })
--- end
--- opt.runtimepath : prepend(lazypath)
--- 
--- require('lazy').setup('plugins', {
---     defaults = {
---         version = "*", -- use the latest git commit, default: nil
---     },
---     checker = {
---         enable = true, -- check updates for plugins automatically, default: false
---     }
--- })
 
 --- Notify command output.
 ---@param msg string
 ---@param sc vim.SystemCompleted
 ---@param level integer|nil
--- local function notify_output(msg, sc, level)
---     local function remove_shell_color(s)
---         return tostring(s):gsub("\x1B%[[0-9;]+m", "")
---     end
---     vim.notify(
---         table.concat({
---             msg,
---             sc and "stderr: " .. remove_shell_color(sc.stderr),
---             sc and "stdout: " .. remove_shell_color(sc.stdout),
---         }, "\n"),
---         level
---     )
--- end
--- 
--- local rocks_config = {
---     rocks_path = vim.fn.stdpath("data") .. "/rocks",
---     luarocks_binary = "luarocks",
--- }
--- 
--- vim.g.rocks_nvim = rocks_config
--- 
--- local luarocks_path = {
---     vim.fs.joinpath(rocks_config.rocks_path, "share", "lua", "5.1", "?.lua"),
---     vim.fs.joinpath(rocks_config.rocks_path, "share", "lua", "5.1", "?", "init.lua"),
--- }
--- package.path = package.path .. ";" .. table.concat(luarocks_path, ";")
--- 
--- local luarocks_cpath = {
---     vim.fs.joinpath(rocks_config.rocks_path, "lib", "lua", "5.1", "?.so"),
---     vim.fs.joinpath(rocks_config.rocks_path, "lib64", "lua", "5.1", "?.so"),
--- }
--- package.cpath = package.cpath .. ";" .. table.concat(luarocks_cpath, ";")
--- 
--- if not vim.uv.fs_stat(rocks_config.rocks_path) then
---   local sc = vim.system({
---     rocks_config.luarocks_binary,
---     "--lua-version=5.1",
---     "--tree=" .. rocks_config.rocks_path,
---     "--server='https://nvim-neorocks.github.io/rocks-binaries/'",
---     "install",
---     "rocks.nvim",
---     }):wait()
---   if sc.code ~= 0 then
---       notify_output("Installing rocks.nvim failed:", sc, vim.log.levels.ERROR)
---       return
---   end
--- end
--- 
--- vim.opt.runtimepath:append(vim.fs.joinpath(rocks_config.rocks_path, "lib", "luarocks", "rocks-5.1", "rocks.nvim", "*"))
 
- local rocks_config = {
-     rocks_path = vim.env.HOME .. "/.local/share/nvim/rocks",
-     luarocks_binary = "luarocks",
- }
- 
- vim.g.rocks_nvim = rocks_config
- 
- local luarocks_path = {
-     vim.fs.joinpath(rocks_config.rocks_path, "share", "lua", "5.1", "?.lua"),
-     vim.fs.joinpath(rocks_config.rocks_path, "share", "lua", "5.1", "?", "init.lua"),
- }
- package.path = package.path .. ";" .. table.concat(luarocks_path, ";")
- 
- local luarocks_cpath = {
-     vim.fs.joinpath(rocks_config.rocks_path, "lib", "lua", "5.1", "?.so"),
-     vim.fs.joinpath(rocks_config.rocks_path, "lib64", "lua", "5.1", "?.so"),
-     -- Remove the dylib and dll paths if you do not need macos or windows support
-     vim.fs.joinpath(rocks_config.rocks_path, "lib", "lua", "5.1", "?.dylib"),
-     vim.fs.joinpath(rocks_config.rocks_path, "lib64", "lua", "5.1", "?.dylib"),
-     vim.fs.joinpath(rocks_config.rocks_path, "lib", "lua", "5.1", "?.dll"),
-     vim.fs.joinpath(rocks_config.rocks_path, "lib64", "lua", "5.1", "?.dll"),
- }
- package.cpath = package.cpath .. ";" .. table.concat(luarocks_cpath, ";")
- 
- vim.opt.runtimepath:append(vim.fs.joinpath(rocks_config.rocks_path, "lib", "luarocks", "rocks-5.1", "rocks.nvim", "*"))
+-- rocks.nvim bootstrap / Nix integration
+--
+-- Nix mode:    if ~/.local/share/nvim/nvim-nix/generated-by-nix.lua exists,
+--              use Nix-provided luarocks wrapper (with rust-mlua backend).
+-- Fallback:    otherwise use plain "luarocks" or git bootstrap.
+--
+do
+    local install_location = vim.fs.joinpath(vim.fn.stdpath("data"), "rocks")
+
+    local nix_data_dir = vim.fs.joinpath(vim.fn.stdpath("data"), "nvim-nix")
+    local nix_deps_path = vim.fs.joinpath(nix_data_dir, "generated-by-nix.lua")
+    local luarocks_config_path = vim.fs.joinpath(nix_data_dir, "luarocks-config-generated.lua")
+
+    local has_nix_deps = vim.fn.filereadable(nix_deps_path) == 1
+    local has_luarocks_config = vim.fn.filereadable(luarocks_config_path) == 1
+
+    local rocks_config
+
+    if has_nix_deps and has_luarocks_config then
+        -- Nix integration mode
+        local nix_deps = dofile(nix_deps_path)
+        local luarocks_config_fn = assert(loadfile(luarocks_config_path))
+
+        rocks_config = {
+            rocks_path = vim.fs.normalize(install_location),
+            luarocks_binary = nix_deps.luarocks_executable,
+            luarocks_config = luarocks_config_fn(),
+        }
+    else
+        -- Fallback / Bootstrap mode (Linux or non-Nix setups)
+        rocks_config = {
+            rocks_path = vim.fs.normalize(install_location),
+            luarocks_binary = "luarocks",
+        }
+    end
+
+    vim.g.rocks_nvim = rocks_config
+
+    -- Configure the package path (so that plugin code can be found)
+    local luarocks_path = {
+        vim.fs.joinpath(rocks_config.rocks_path, "share", "lua", "5.1", "?.lua"),
+        vim.fs.joinpath(rocks_config.rocks_path, "share", "lua", "5.1", "?", "init.lua"),
+    }
+    package.path = package.path .. ";" .. table.concat(luarocks_path, ";")
+
+    -- Configure the C path (so that e.g. tree-sitter parsers can be found)
+    local luarocks_cpath = {
+        vim.fs.joinpath(rocks_config.rocks_path, "lib", "lua", "5.1", "?.so"),
+        vim.fs.joinpath(rocks_config.rocks_path, "lib64", "lua", "5.1", "?.so"),
+        vim.fs.joinpath(rocks_config.rocks_path, "lib", "lua", "5.1", "?.dylib"),
+        vim.fs.joinpath(rocks_config.rocks_path, "lib64", "lua", "5.1", "?.dylib"),
+        vim.fs.joinpath(rocks_config.rocks_path, "lib", "lua", "5.1", "?.dll"),
+        vim.fs.joinpath(rocks_config.rocks_path, "lib64", "lua", "5.1", "?.dll"),
+    }
+    package.cpath = package.cpath .. ";" .. table.concat(luarocks_cpath, ";")
+
+    -- Add rocks.nvim to the runtimepath
+    vim.opt.runtimepath:append(vim.fs.joinpath(rocks_config.rocks_path, "lib", "luarocks", "rocks-5.1", "rocks.nvim", "*"))
+end
+
+-- If rocks.nvim is not installed then install it!
+if not pcall(require, "rocks") then
+    local rocks_config = vim.g.rocks_nvim
+    local has_luarocks = vim.fn.executable(rocks_config.luarocks_binary) == 1
+
+    if has_luarocks then
+        local env = vim.fn.environ()
+        if env.HTTP_PROXY and not env.HTTPS_PROXY then
+            env.HTTPS_PROXY = env.HTTP_PROXY
+        end
+
+        local sc = vim.system({
+            rocks_config.luarocks_binary,
+            "--lua-version=5.1",
+            "--tree=" .. rocks_config.rocks_path,
+            "install",
+            "rocks.nvim",
+        }, { env = env }):wait()
+
+        if sc.code ~= 0 then
+            vim.notify(
+                "Installing rocks.nvim failed:\nstderr: " .. (sc.stderr or "") .. "\nstdout: " .. (sc.stdout or ""),
+                vim.log.levels.ERROR
+            )
+            return
+        end
+    else
+        -- Bootstrap for non-Nix systems without luarocks
+        local rocks_location = vim.fs.joinpath(vim.fn.stdpath("cache"), "rocks.nvim")
+
+        if not vim.uv.fs_stat(rocks_location) then
+            local url = "https://github.com/lumen-oss/rocks.nvim"
+            vim.fn.system({ "git", "clone", "--filter=blob:none", url, rocks_location })
+            assert(vim.v.shell_error == 0, "rocks.nvim installation failed. Try exiting and re-entering Neovim!")
+        end
+
+        vim.cmd.source(vim.fs.joinpath(rocks_location, "bootstrap.lua"))
+        vim.fn.delete(rocks_location, "rf")
+    end
+end
